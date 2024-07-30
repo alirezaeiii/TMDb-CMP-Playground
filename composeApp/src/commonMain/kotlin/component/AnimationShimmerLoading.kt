@@ -33,7 +33,7 @@ import utils.Dimens.disney_8_dp
 fun ShimmerLoading() {
     DisneyTopBar {
         LazyColumn(
-            modifier = Modifier.background(MaterialTheme.colors.background)
+            modifier = Modifier.background(MaterialTheme.colors.background).padding(it)
         ) {
             items(count = 3) {
                 ShimmerItem()
@@ -45,7 +45,7 @@ fun ShimmerLoading() {
 
 
 @Composable
-fun ShimmerItem() {
+private fun ShimmerItem() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -70,7 +70,7 @@ fun ShimmerItem() {
 }
 
 @Composable
-fun ComponentRectangleLineLong(
+private fun ComponentRectangleLineLong(
     widthFraction: Float
 ) {
     Box(
@@ -82,7 +82,7 @@ fun ComponentRectangleLineLong(
     )
 }
 
-fun Modifier.shimmerLoadingAnimation(
+private fun Modifier.shimmerLoadingAnimation(
     widthOfShadowBrush: Int = 500,
     angleOfAxisY: Float = 270f,
     durationMillis: Int = 1000,
