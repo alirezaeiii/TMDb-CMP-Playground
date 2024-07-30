@@ -10,6 +10,11 @@ This is a Compose Multiplatform project targeting Android, iOS.
 * `/iosApp` contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform, 
   you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
 
+## Screenshots
+<p align="center">
+  <img src="https://github.com/alirezaeiii/Disney-Compose-Multiplatform/blob/main/screenshots/screenshot1.gif" width="250" />
+</p>
+
 ## Libraries
 * [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) - Compose Multiplatform, a modern UI framework for Kotlin that makes building performant and beautiful user interfaces.
 * [Jetbrain Navigation Compose](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation-routing.html) - The Navigation component provides support for Jetpack Compose applications. You can navigate between composables while taking advantage of the Navigation component’s infrastructure and features.
