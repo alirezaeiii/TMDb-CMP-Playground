@@ -24,7 +24,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import utils.Dimens.disney_150_dp
 import utils.Dimens.disney_16_dp
 import utils.Dimens.disney_20_dp
@@ -32,12 +31,14 @@ import utils.Dimens.disney_8_dp
 
 @Composable
 fun ShimmerLoading() {
-    LazyColumn(
-        modifier = Modifier.background(MaterialTheme.colors.background)
-    ) {
-        items(count = 3) {
-            ShimmerItem()
-            Divider()
+    DisneyTopBar {
+        LazyColumn(
+            modifier = Modifier.background(MaterialTheme.colors.background)
+        ) {
+            items(count = 3) {
+                ShimmerItem()
+                Divider()
+            }
         }
     }
 }
