@@ -1,5 +1,8 @@
 package viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import data.repository.DisneyRepositoryImpl
@@ -22,27 +25,37 @@ class DisneyViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(UiState(isLoading = true))
     val uiState = _uiState.asStateFlow()
 
+    var isRefreshing by mutableStateOf(false)
+        private set
+
     init {
         refresh()
     }
 
-    fun refresh() {
-        _uiState.update {
-            UiState(isLoading = true)
+    fun refresh(showShimmer: Boolean = true) {
+        if (showShimmer) {
+            _uiState.update {
+                UiState(isLoading = true)
+            }
         }
         viewModelScope.launch {
-            repository.getPosters().fold(
-                onSuccess = { posters ->
-                    _uiState.update {
-                        UiState(posters = posters)
+            try {
+                isRefreshing = true
+                repository.getPosters().fold(
+                    onSuccess = { posters ->
+                        _uiState.update {
+                            UiState(posters = posters)
+                        }
+                    },
+                    onFailure = { error ->
+                        _uiState.update {
+                            UiState(error = error.message.orEmpty())
+                        }
                     }
-                },
-                onFailure = { error ->
-                    _uiState.update {
-                        UiState(error = error.message.orEmpty())
-                    }
-                }
-            )
+                )
+            } finally {
+                isRefreshing = false
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
 <resources>
+    <string name="app-name">Disney</string>
     <string name="retry">Retry</string>
 </resources>
