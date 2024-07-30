@@ -58,13 +58,13 @@ fun SharedTransitionScope.HomeScreen(
         ErrorScreen(state.error, viewModel::refresh)
     }
     if (state.posters.isNotEmpty()) {
-        MediumTopAppBar(viewModel, state.posters, onClick, animatedVisibilityScope)
+        HomeScreen(viewModel, state.posters, onClick, animatedVisibilityScope)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
-fun SharedTransitionScope.MediumTopAppBar(
+fun SharedTransitionScope.HomeScreen(
     viewModel: DisneyViewModel,
     posters: List<Poster>,
     onClick: (Poster) -> Unit,
