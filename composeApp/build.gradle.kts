@@ -48,7 +48,7 @@ kotlin {
             implementation(libs.ktor.plugin.logging)
             implementation(libs.ktor.plugin.content.negotiation)
             implementation(libs.kotlinx.serialization)
-            implementation(libs.lifecycle)
+            implementation(libs.viewmodel)
             implementation(libs.navigation)
             implementation(libs.coil.compose.core)
             implementation(libs.coil.compose)

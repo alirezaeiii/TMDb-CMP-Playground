@@ -17,7 +17,7 @@ kotlin = "2.0.0"
 napier = "2.7.1"
 ktor = "2.3.12"
 coroutines = "1.8.1"
-lifecycle = "2.8.0"
+viewmodel = "2.8.0"
 navigation = "2.7.0-alpha07"
 coil = "3.0.0-alpha06"
 url-encoder = "1.5.0"
@@ -44,7 +44,7 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 ktor-plugin-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-plugin-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 kotlinx-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-lifecycle = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "viewmodel" }
 navigation = {module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-compose-core = { module = "io.coil-kt.coil3:coil-compose-core", version.ref = "coil" }
