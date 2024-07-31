@@ -32,8 +32,8 @@ class DisneyViewModel : ViewModel() {
         refresh()
     }
 
-    fun refresh(showShimmer: Boolean = true) {
-        if (showShimmer) {
+    fun refresh(isRetry: Boolean = false) {
+        if (isRetry) {
             _uiState.update {
                 UiState(isLoading = true)
             }

@@ -45,7 +45,9 @@ fun SharedTransitionScope.HomeScreen(
         ShimmerLoading()
     }
     if (state.error.isNotEmpty()) {
-        ErrorScreen(state.error, viewModel::refresh)
+        ErrorScreen(state.error) {
+            viewModel.refresh(isRetry = true)
+        }
     }
     if (state.posters.isNotEmpty()) {
         HomeScreen(viewModel, state.posters, onClick, animatedVisibilityScope)
@@ -64,7 +66,7 @@ private fun SharedTransitionScope.HomeScreen(
         PullToRefreshBox(
             modifier = Modifier.padding(it),
             isRefreshing = viewModel.isRefreshing,
-            onRefresh = { viewModel.refresh(showShimmer = false) }
+            onRefresh = viewModel::refresh
         ) {
             VerticalCollection(
                 posters,
