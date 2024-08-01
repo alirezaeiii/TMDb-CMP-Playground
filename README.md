@@ -21,6 +21,7 @@ This is a Compose Multiplatform project targeting Android, iOS.
 * [Ktor Client](https://ktor.io/docs/welcome.html) - Ktor includes a multiplatform asynchronous HTTP client, which allows you to make requests and handle responses.
 * [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) - Kotlin multiplatform / multi-format reflectionless serialization
 * [ViewModel](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-viewmodel.html) - ViewModel is designed to store and manage UI-related data in a lifecycle conscious way. This allows data to survive configuration changes such as screen rotations.
+* [Koin](https://github.com/InsertKoinIO/koin) is a lightweight dependency injection framework for Kotlin & Kotlin multiplatform.
 * [Kotlin coroutines](https://developer.android.com/kotlin/coroutines) - Executing code asynchronously.
 * [StateFlow](https://developer.android.com/kotlin/flow/stateflow-and-sharedflow) - is a state-holder observable flow that emits the current and new state updates to its collectors.
 * [Coil-compose](https://coil-kt.github.io/coil/compose/) - An image loading library for Android backed by Kotlin Coroutines.
