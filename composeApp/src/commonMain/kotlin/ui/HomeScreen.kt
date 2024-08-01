@@ -29,14 +29,16 @@ import component.Divider
 import component.ErrorScreen
 import component.ShimmerLoading
 import domain.model.Poster
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 import utils.Dimens.disney_150_dp
 import utils.Dimens.disney_16_dp
 import viewmodel.DisneyViewModel
 
-@OptIn(ExperimentalSharedTransitionApi::class)
+@OptIn(ExperimentalSharedTransitionApi::class, KoinExperimentalAPI::class)
 @Composable
 fun SharedTransitionScope.HomeScreen(
-    viewModel: DisneyViewModel = viewModel { DisneyViewModel() },
+    viewModel: DisneyViewModel = koinViewModel<DisneyViewModel>(),
     onClick: (Poster) -> Unit,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
