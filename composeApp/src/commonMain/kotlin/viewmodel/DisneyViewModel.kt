@@ -12,15 +12,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-data class UiState(
-    var isLoading: Boolean = false,
-    var posters: List<Poster> = emptyList(),
-    var error: String = ""
-)
-
 class DisneyViewModel(private val repository: DisneyRepository) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(UiState(isLoading = true))
+    private val _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
 
     var isRefreshing by mutableStateOf(false)
@@ -30,10 +24,10 @@ class DisneyViewModel(private val repository: DisneyRepository) : ViewModel() {
         refresh()
     }
 
-    fun refresh(isRetry: Boolean = false) {
-        if (isRetry) {
+    fun refresh(isLoading: Boolean = true) {
+        if (isLoading) {
             _uiState.update {
-                UiState(isLoading = true)
+                UiState(isLoading = isLoading)
             }
         }
         viewModelScope.launch {
@@ -57,3 +51,9 @@ class DisneyViewModel(private val repository: DisneyRepository) : ViewModel() {
         }
     }
 }
+
+data class UiState(
+    var isLoading: Boolean = false,
+    var posters: List<Poster> = emptyList(),
+    var error: String = ""
+)
