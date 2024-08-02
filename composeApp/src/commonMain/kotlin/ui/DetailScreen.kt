@@ -190,7 +190,6 @@ private fun DetailsToolbar(
             Text(
                 text = name,
                 style = MaterialTheme.typography.h6,
-                // As title in TopAppBar has extra inset on the left, need to do this: b/158829169
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxSize()
