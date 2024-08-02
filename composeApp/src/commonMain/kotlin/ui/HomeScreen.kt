@@ -19,10 +19,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import component.DisneyTopBar
 import component.Divider
@@ -42,7 +42,7 @@ fun SharedTransitionScope.HomeScreen(
     onClick: (Poster) -> Unit,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
-    val state = viewModel.uiState.collectAsState().value
+    val state by viewModel.uiState.collectAsState()
     if (state.isLoading) {
         ShimmerLoading()
     }
