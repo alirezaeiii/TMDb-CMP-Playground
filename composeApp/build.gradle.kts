@@ -56,9 +56,7 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
 
-            implementation(libs.coil.compose.core)
             implementation(libs.coil.compose)
-            implementation(libs.coil.mp)
             implementation(libs.coil.network.ktor)
             implementation(libs.napier)
             implementation(libs.url.encoder)
