@@ -1,12 +1,12 @@
-package data.response
+package data.database
 
-import data.database.PosterEntity
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import domain.model.Poster
-import kotlinx.serialization.Serializable
 
-@Serializable
-data class PosterDto(
-    val id: Long,
+@Entity(tableName = "posters")
+class PosterEntity(
+    @PrimaryKey val id: Long,
     val name: String,
     val release: String,
     val playtime: String,
@@ -16,9 +16,9 @@ data class PosterDto(
     val gif: String
 )
 
-fun List<PosterDto>.asDatabaseModel(): Array<PosterEntity> {
+fun List<PosterEntity>.asDomainModel(): List<Poster> {
     return map {
-        PosterEntity(
+        Poster(
             id = it.id,
             name = it.name,
             release = it.release,
@@ -28,5 +28,5 @@ fun List<PosterDto>.asDatabaseModel(): Array<PosterEntity> {
             poster = it.poster,
             gif = it.gif
         )
-    }.toTypedArray()
+    }
 }

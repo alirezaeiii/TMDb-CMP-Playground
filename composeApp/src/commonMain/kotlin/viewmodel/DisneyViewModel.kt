@@ -33,18 +33,20 @@ class DisneyViewModel(private val repository: DisneyRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 isRefreshing = true
-                repository.getPosters().fold(
-                    onSuccess = { posters ->
-                        _uiState.update {
-                            UiState(posters = posters)
+                repository.getPosters().collect {
+                    it.fold(
+                        onSuccess = { posters ->
+                            _uiState.update {
+                                UiState(posters = posters)
+                            }
+                        },
+                        onFailure = { error ->
+                            _uiState.update {
+                                UiState(error = error.message.orEmpty())
+                            }
                         }
-                    },
-                    onFailure = { error ->
-                        _uiState.update {
-                            UiState(error = error.message.orEmpty())
-                        }
-                    }
-                )
+                    )
+                }
             } finally {
                 isRefreshing = false
             }
