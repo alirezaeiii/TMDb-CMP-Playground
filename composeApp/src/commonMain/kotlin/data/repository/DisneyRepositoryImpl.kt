@@ -9,14 +9,17 @@ import domain.repository.DisneyRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.serialization.json.Json
 
 class DisneyRepositoryImpl(
     private val httpClient: HttpClient,
     private val json: Json,
-    private val database: AppDatabase
+    private val database: AppDatabase,
+    private val dispatcher: CoroutineDispatcher
 ) : DisneyRepository {
 
     override suspend fun getPosters(): Flow<Result<List<Poster>>> = flow {
@@ -41,7 +44,7 @@ class DisneyRepositoryImpl(
             } catch (_: Throwable) {
             }
         }
-    }
+    }.flowOn(dispatcher)
 
     private suspend fun refresh() {
         val response: String = httpClient.get("DisneyPosters2.json").body()

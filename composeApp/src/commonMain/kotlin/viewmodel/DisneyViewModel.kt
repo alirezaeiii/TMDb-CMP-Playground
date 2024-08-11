@@ -27,7 +27,7 @@ class DisneyViewModel(private val repository: DisneyRepository) : ViewModel() {
     fun refresh(isLoading: Boolean = true) {
         if (isLoading) {
             _uiState.update {
-                UiState(isLoading = isLoading)
+                UiState(isLoading = true)
             }
         }
         viewModelScope.launch {
