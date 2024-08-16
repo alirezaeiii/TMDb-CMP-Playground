@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -9,6 +10,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.buildKonfig)
 }
 
 kotlin {
@@ -114,6 +116,15 @@ android {
         debugImplementation(compose.uiTooling)
     }
 }
+/*
+buildkonfig {
+    packageName = "org.example.disney"
+
+    defaultConfigs {
+        val apiKey: String = gradleLocalProperties(rootDir, providers).getProperty("API_KEY")
+        buildConfigField(FieldSpec.Type.STRING, "API_KEY", apiKey)
+    }
+}*/
 
 room {
     schemaDirectory("$projectDir/schemas")

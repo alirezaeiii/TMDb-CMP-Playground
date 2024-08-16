@@ -47,7 +47,7 @@ class DisneyRepositoryImpl(
     }.flowOn(dispatcher)
 
     private suspend fun refresh() {
-        val response: String = httpClient.get("DisneyPosters2.json").body()
+        val response: String = httpClient.get("discover/movie").body()
         val items = json.decodeFromString<List<PosterDto>>(response)
         database.posterDao().insertAll(*items.asDatabaseModel())
     }

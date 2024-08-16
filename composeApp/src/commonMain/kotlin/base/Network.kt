@@ -30,7 +30,7 @@ val ktorModule = module {
         HttpClient {
             expectSuccess = true
             defaultRequest {
-                url("https://gist.githubusercontent.com/skydoves/176c209dbce4a53c0ff9589e07255f30/raw/6489d9712702e093c4df71500fb822f0d408ef75/")
+                url("http://api.themoviedb.org/3/")
             }
             install(Logging) {
                 logger = object : Logger {
