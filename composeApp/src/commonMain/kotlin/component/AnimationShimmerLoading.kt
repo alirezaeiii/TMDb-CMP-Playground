@@ -64,8 +64,6 @@ private fun ShimmerItem() {
         Spacer(modifier = Modifier.height(tmdb_8_dp))
         ComponentRectangleLineLong(.4f)
         Spacer(modifier = Modifier.height(tmdb_8_dp))
-        ComponentRectangleLineLong(.5f)
-        Spacer(modifier = Modifier.height(tmdb_8_dp))
     }
 }
 
