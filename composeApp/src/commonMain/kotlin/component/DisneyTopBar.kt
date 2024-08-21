@@ -17,9 +17,9 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import disney_compose_multiplatform.composeapp.generated.resources.Res
-import disney_compose_multiplatform.composeapp.generated.resources.app_name
 import org.jetbrains.compose.resources.stringResource
+import tmdb_compose_multiplatform.composeapp.generated.resources.Res
+import tmdb_compose_multiplatform.composeapp.generated.resources.app_name
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

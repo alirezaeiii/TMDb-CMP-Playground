@@ -13,9 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import disney_compose_multiplatform.composeapp.generated.resources.Res
-import disney_compose_multiplatform.composeapp.generated.resources.retry
 import org.jetbrains.compose.resources.stringResource
+import tmdb_compose_multiplatform.composeapp.generated.resources.Res
+import tmdb_compose_multiplatform.composeapp.generated.resources.retry
 import utils.Dimens.disney_16_dp
 
 @Composable
