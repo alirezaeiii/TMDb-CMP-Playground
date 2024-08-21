@@ -1,4 +1,4 @@
-rootProject.name = "Disney-Compose-multiplatform"
+rootProject.name = "TMDb-Compose-multiplatform"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

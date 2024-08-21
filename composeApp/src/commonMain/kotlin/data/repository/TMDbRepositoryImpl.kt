@@ -2,10 +2,10 @@ package data.repository
 
 import data.database.AppDatabase
 import data.database.asDomainModel
-import data.response.PosterDto
+import data.response.TMDbWrapper
 import data.response.asDatabaseModel
-import domain.model.Poster
-import domain.repository.DisneyRepository
+import domain.model.Movie
+import domain.repository.TMDbRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -13,23 +13,21 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.serialization.json.Json
 
-class DisneyRepositoryImpl(
+class TMDbRepositoryImpl(
     private val httpClient: HttpClient,
-    private val json: Json,
     private val database: AppDatabase,
     private val dispatcher: CoroutineDispatcher
-) : DisneyRepository {
+) : TMDbRepository {
 
-    override suspend fun getPosters(): Flow<Result<List<Poster>>> = flow {
-        val cache = database.posterDao().getPosters()
+    override suspend fun getPosters(): Flow<Result<List<Movie>>> = flow {
+        val cache = database.movieDao().getMovies()
         if (cache.isEmpty()) {
             try {
                 // ****** STEP 1: MAKE NETWORK CALL, SAVE RESULT TO CACHE ******
                 refresh()
                 // ****** STEP 3: VIEW CACHE ******
-                emit(Result.success(database.posterDao().getPosters().asDomainModel()))
+                emit(Result.success(database.movieDao().getMovies().asDomainModel()))
             } catch (e: Exception) {
                 emit(Result.failure(e))
             }
@@ -40,15 +38,14 @@ class DisneyRepositoryImpl(
                 // ****** STEP 2: MAKE NETWORK CALL, SAVE RESULT TO CACHE ******
                 refresh()
                 // ****** STEP 3: VIEW CACHE ******
-                emit(Result.success(database.posterDao().getPosters().asDomainModel()))
+                emit(Result.success(database.movieDao().getMovies().asDomainModel()))
             } catch (_: Throwable) {
             }
         }
     }.flowOn(dispatcher)
 
     private suspend fun refresh() {
-        val response: String = httpClient.get("discover/movie").body()
-        val items = json.decodeFromString<List<PosterDto>>(response)
-        database.posterDao().insertAll(*items.asDatabaseModel())
+        val response = httpClient.get("discover/movie").body<TMDbWrapper>()
+        database.movieDao().insertAll(*response.items.asDatabaseModel())
     }
 }

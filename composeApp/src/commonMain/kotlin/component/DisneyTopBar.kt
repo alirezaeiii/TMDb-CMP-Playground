@@ -23,7 +23,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DisneyTopBar(scrollContent: @Composable (PaddingValues) -> Unit) {
+fun TMDbTopBar(scrollContent: @Composable (PaddingValues) -> Unit) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -37,7 +37,7 @@ fun DisneyTopBar(scrollContent: @Composable (PaddingValues) -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DisneyDetailTopBar(title: String, onNavigationIconClick: () -> Unit) {
+fun TMDbDetailTopBar(title: String, onNavigationIconClick: () -> Unit) {
     Surface {
         CenterAlignedTopBar(title) {
             IconButton(

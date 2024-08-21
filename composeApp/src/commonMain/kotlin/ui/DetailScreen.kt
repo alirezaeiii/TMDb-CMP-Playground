@@ -33,6 +33,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
@@ -42,10 +43,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import component.DetailsScroller
-import component.DisneyDetailTopBar
+import component.TMDbDetailTopBar
 import component.ToolbarState
 import component.isShown
-import domain.model.Poster
+import domain.model.Movie
 import utils.Dimens.disney_12_dp
 import utils.Dimens.disney_16_dp
 import utils.Dimens.disney_32_dp
@@ -55,7 +56,7 @@ import utils.Dimens.disney_8_dp
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun SharedTransitionScope.DetailScreen(
-    poster: Poster,
+    movie: Movie,
     pressOnBack: () -> Unit,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
@@ -87,12 +88,12 @@ fun SharedTransitionScope.DetailScreen(
                         detailScroller.copy(namePosition = newNamePosition)
                 }
             },
-            item = poster,
+            item = movie,
             contentAlpha = { contentAlpha.value },
             animatedVisibilityScope = animatedVisibilityScope
         )
         DetailsToolbar(
-            toolbarState, poster.name, pressOnBack,
+            toolbarState, movie.name, pressOnBack,
             contentAlpha = { contentAlpha.value }
         )
     }
@@ -103,17 +104,20 @@ fun SharedTransitionScope.DetailScreen(
 private fun SharedTransitionScope.DetailsContent(
     scrollState: ScrollState,
     onNamePosition: (Float) -> Unit,
-    item: Poster,
+    item: Movie,
     contentAlpha: () -> Float,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     val typography = MaterialTheme.typography
 
     Column(
-        modifier = Modifier.verticalScroll(scrollState)
+        modifier = Modifier.verticalScroll(scrollState).fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+
     ) {
         AsyncImage(
-            model = item.poster,
+            model = item.backdropPath,
             contentDescription = null,
             modifier = Modifier.sharedElement(
                 state = rememberSharedContentState(key = item.id),
@@ -130,14 +134,33 @@ private fun SharedTransitionScope.DetailsContent(
                 .onGloballyPositioned { onNamePosition(it.positionInWindow().y) })
         Text(
             modifier = Modifier.padding(disney_8_dp),
-            text = item.description,
-            style = typography.body1,
-            fontSize = 18.sp,
+            text = item.name,
+            style = typography.h4,
+            color = MaterialTheme.colors.onSurface
+        )
+        item.releaseDate?.let {
+            Text(
+                modifier = Modifier.padding(disney_8_dp),
+                text = it,
+                style = typography.h5,
+                color = MaterialTheme.colors.onSurface
+            )
+        }
+        Text(
+            modifier = Modifier.padding(disney_8_dp),
+            text = item.voteAverage.toString(),
+            style = typography.h6,
             color = MaterialTheme.colors.onSurface
         )
         Text(
             modifier = Modifier.padding(disney_8_dp),
-            text = item.plot,
+            text = item.voteCount.toString(),
+            style = typography.h6,
+            color = MaterialTheme.colors.onSurface
+        )
+        Text(
+            modifier = Modifier.padding(disney_8_dp),
+            text = item.overview,
             style = typography.body1,
             fontSize = 18.sp,
             color = MaterialTheme.colors.onSurface
@@ -153,7 +176,7 @@ private fun DetailsToolbar(
     contentAlpha: () -> Float
 ) {
     if (toolbarState.isShown) {
-        DisneyDetailTopBar(name) {
+        TMDbDetailTopBar(name) {
             pressOnBack.invoke()
         }
     } else {

@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import domain.model.Poster
+import domain.model.Movie
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.thauvin.erik.urlencoder.UrlEncoderUtil
@@ -30,10 +30,10 @@ fun App(navController: NavHostController = rememberNavController()) {
                 startDestination = HOME_ROUTE,
             ) {
                 composable(route = HOME_ROUTE) {
-                    HomeScreen(onClick = { poster ->
+                    HomeScreen(onClick = { movie ->
                         navController.navigate(
                             "$DETAIL_ROUTE/${
-                                UrlEncoderUtil.encode(Json.encodeToString(poster))
+                                UrlEncoderUtil.encode(Json.encodeToString(movie))
                             }"
                         )
                     }, animatedVisibilityScope = this@composable)
@@ -45,7 +45,7 @@ fun App(navController: NavHostController = rememberNavController()) {
                 ) { from ->
                     from.arguments?.getString(DISNEY_KEY)?.let {
                         DetailScreen(
-                            Json.decodeFromString<Poster>(it),
+                            Json.decodeFromString<Movie>(it),
                             navController::navigateUp,
                             animatedVisibilityScope = this@composable
                         )

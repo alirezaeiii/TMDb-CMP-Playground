@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -116,15 +117,15 @@ android {
         debugImplementation(compose.uiTooling)
     }
 }
-/*
+
 buildkonfig {
     packageName = "org.example.disney"
 
     defaultConfigs {
-        val apiKey: String = gradleLocalProperties(rootDir, providers).getProperty("API_KEY")
-        buildConfigField(FieldSpec.Type.STRING, "API_KEY", apiKey)
+        val apiKey: String = gradleLocalProperties(rootDir, providers).getProperty("TMDB_API_KEY")
+        buildConfigField(FieldSpec.Type.STRING, "TMDB_API_KEY", apiKey)
     }
-}*/
+}
 
 room {
     schemaDirectory("$projectDir/schemas")
