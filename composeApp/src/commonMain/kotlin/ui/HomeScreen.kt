@@ -31,8 +31,8 @@ import component.TMDbTopBar
 import domain.model.Movie
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
-import utils.Dimens.disney_150_dp
-import utils.Dimens.disney_16_dp
+import utils.Dimens.tmdb_150_dp
+import utils.Dimens.tmdb_16_dp
 import viewmodel.DisneyViewModel
 
 @OptIn(ExperimentalSharedTransitionApi::class, KoinExperimentalAPI::class)
@@ -106,7 +106,7 @@ private fun SharedTransitionScope.VerticalListItem(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(disney_16_dp)
+            .padding(tmdb_16_dp)
             .clickable { onClick.invoke(item) }
     ) {
         AsyncImage(
@@ -119,12 +119,12 @@ private fun SharedTransitionScope.VerticalListItem(
                     tween(400)
                 }
             )
-                .height(disney_150_dp)
+                .height(tmdb_150_dp)
                 .fillMaxWidth()
                 .clip(shape = MaterialTheme.shapes.medium),
             contentScale = ContentScale.Crop,
         )
-        Spacer(Modifier.height(disney_16_dp))
+        Spacer(Modifier.height(tmdb_16_dp))
         Text(
             text = item.name,
             style = typography.h6,
