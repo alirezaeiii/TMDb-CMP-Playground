@@ -47,11 +47,11 @@ import component.TMDbDetailTopBar
 import component.ToolbarState
 import component.isShown
 import domain.model.Movie
-import utils.Dimens.disney_12_dp
-import utils.Dimens.disney_16_dp
-import utils.Dimens.disney_32_dp
-import utils.Dimens.disney_448_dp
-import utils.Dimens.disney_8_dp
+import utils.Dimens.tmdb_12_dp
+import utils.Dimens.tmdb_16_dp
+import utils.Dimens.tmdb_32_dp
+import utils.Dimens.tmdb_448_dp
+import utils.Dimens.tmdb_8_dp
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -124,42 +124,56 @@ private fun SharedTransitionScope.DetailsContent(
                 animatedVisibilityScope = animatedVisibilityScope
             )
                 .fillMaxWidth()
-                .height(disney_448_dp)
+                .height(tmdb_448_dp)
                 .alpha(contentAlpha()),
             contentScale = ContentScale.Crop,
         )
         Spacer(
             Modifier
-                .height(disney_16_dp)
+                .height(tmdb_16_dp)
                 .onGloballyPositioned { onNamePosition(it.positionInWindow().y) })
         Text(
-            modifier = Modifier.padding(disney_8_dp),
+            modifier = Modifier.padding(tmdb_8_dp),
             text = item.name,
             style = typography.h4,
             color = MaterialTheme.colors.onSurface
         )
         item.releaseDate?.let {
             Text(
-                modifier = Modifier.padding(disney_8_dp),
+                modifier = Modifier.padding(tmdb_8_dp),
                 text = it,
                 style = typography.h5,
                 color = MaterialTheme.colors.onSurface
             )
         }
         Text(
-            modifier = Modifier.padding(disney_8_dp),
+            modifier = Modifier.padding(tmdb_8_dp),
             text = item.voteAverage.toString(),
             style = typography.h6,
             color = MaterialTheme.colors.onSurface
         )
         Text(
-            modifier = Modifier.padding(disney_8_dp),
+            modifier = Modifier.padding(tmdb_8_dp),
             text = item.voteCount.toString(),
             style = typography.h6,
             color = MaterialTheme.colors.onSurface
         )
         Text(
-            modifier = Modifier.padding(disney_8_dp),
+            modifier = Modifier.padding(tmdb_8_dp),
+            text = item.overview,
+            style = typography.body1,
+            fontSize = 18.sp,
+            color = MaterialTheme.colors.onSurface
+        )
+        Text(
+            modifier = Modifier.padding(tmdb_8_dp),
+            text = item.overview,
+            style = typography.body1,
+            fontSize = 18.sp,
+            color = MaterialTheme.colors.onSurface
+        )
+        Text(
+            modifier = Modifier.padding(tmdb_8_dp),
             text = item.overview,
             style = typography.body1,
             fontSize = 18.sp,
@@ -195,13 +209,13 @@ private fun HeaderActions(
     Row(
         modifier = modifier
             .fillMaxSize()
-            .padding(top = disney_12_dp),
+            .padding(top = tmdb_12_dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         val iconModifier = Modifier
             .sizeIn(
-                maxWidth = disney_32_dp,
-                maxHeight = disney_32_dp
+                maxWidth = tmdb_32_dp,
+                maxHeight = tmdb_32_dp
             )
             .background(
                 color = MaterialTheme.colors.surface,
@@ -211,7 +225,7 @@ private fun HeaderActions(
         IconButton(
             onClick = onBackClick,
             modifier = Modifier
-                .padding(start = disney_12_dp)
+                .padding(start = tmdb_12_dp)
                 .then(iconModifier)
         ) {
             Icon(

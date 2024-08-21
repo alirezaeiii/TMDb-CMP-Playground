@@ -24,10 +24,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import utils.Dimens.disney_150_dp
-import utils.Dimens.disney_16_dp
-import utils.Dimens.disney_20_dp
-import utils.Dimens.disney_8_dp
+import utils.Dimens.tmdb_150_dp
+import utils.Dimens.tmdb_16_dp
+import utils.Dimens.tmdb_20_dp
+import utils.Dimens.tmdb_8_dp
 
 @Composable
 fun ShimmerLoading() {
@@ -49,23 +49,23 @@ private fun ShimmerItem() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(disney_16_dp)
+            .padding(tmdb_16_dp)
     ) {
         Box(
             modifier = Modifier
-                .height(disney_150_dp)
+                .height(tmdb_150_dp)
                 .fillMaxWidth()
                 .background(color = Color.LightGray)
                 .clip(shape = MaterialTheme.shapes.medium)
                 .shimmerLoadingAnimation(),
         )
-        Spacer(Modifier.height(disney_16_dp))
+        Spacer(Modifier.height(tmdb_16_dp))
         ComponentRectangleLineLong(.7f)
-        Spacer(modifier = Modifier.height(disney_8_dp))
+        Spacer(modifier = Modifier.height(tmdb_8_dp))
         ComponentRectangleLineLong(.4f)
-        Spacer(modifier = Modifier.height(disney_8_dp))
+        Spacer(modifier = Modifier.height(tmdb_8_dp))
         ComponentRectangleLineLong(.5f)
-        Spacer(modifier = Modifier.height(disney_8_dp))
+        Spacer(modifier = Modifier.height(tmdb_8_dp))
     }
 }
 
@@ -75,9 +75,9 @@ private fun ComponentRectangleLineLong(
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(widthFraction)
-            .clip(shape = RoundedCornerShape(disney_8_dp))
+            .clip(shape = RoundedCornerShape(tmdb_8_dp))
             .background(color = Color.LightGray)
-            .height(disney_20_dp)
+            .height(tmdb_20_dp)
             .shimmerLoadingAnimation()
     )
 }
