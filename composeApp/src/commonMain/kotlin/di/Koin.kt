@@ -2,8 +2,8 @@ package di
 
 import base.jsonModule
 import base.ktorModule
-import data.repository.DisneyRepositoryImpl
-import domain.repository.DisneyRepository
+import data.repository.TMDbRepositoryImpl
+import domain.repository.TMDbRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import org.koin.compose.viewmodel.dsl.viewModelOf
@@ -24,7 +24,7 @@ fun initKoin(config: KoinAppDeclaration? = null) {
 expect fun platformModule(): Module
 
 val sharedModule = module {
-    single<DisneyRepository> { DisneyRepositoryImpl(get(), get(), get(), get(named("io"))) }
+    single<TMDbRepository> { TMDbRepositoryImpl(get(), get(), get(named("io"))) }
     viewModelOf(::DisneyViewModel)
 }
 

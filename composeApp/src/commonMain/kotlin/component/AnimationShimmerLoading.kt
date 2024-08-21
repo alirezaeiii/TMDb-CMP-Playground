@@ -31,7 +31,7 @@ import utils.Dimens.disney_8_dp
 
 @Composable
 fun ShimmerLoading() {
-    DisneyTopBar {
+    TMDbTopBar {
         LazyColumn(
             modifier = Modifier.background(MaterialTheme.colors.background).padding(it)
         ) {

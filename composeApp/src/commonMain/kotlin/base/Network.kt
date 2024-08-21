@@ -10,6 +10,7 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import org.example.disney.BuildKonfig
 import org.koin.dsl.module
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -30,7 +31,10 @@ val ktorModule = module {
         HttpClient {
             expectSuccess = true
             defaultRequest {
-                url("https://gist.githubusercontent.com/skydoves/176c209dbce4a53c0ff9589e07255f30/raw/6489d9712702e093c4df71500fb822f0d408ef75/")
+                url("http://api.themoviedb.org/3/")
+                url {
+                    parameters.append("api_key", BuildKonfig.TMDB_API_KEY)
+                }
             }
             install(Logging) {
                 logger = object : Logger {

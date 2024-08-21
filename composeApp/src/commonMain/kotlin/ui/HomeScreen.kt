@@ -24,11 +24,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImage
-import component.DisneyTopBar
 import component.Divider
 import component.ErrorScreen
 import component.ShimmerLoading
-import domain.model.Poster
+import component.TMDbTopBar
+import domain.model.Movie
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import utils.Dimens.disney_150_dp
@@ -39,7 +39,7 @@ import viewmodel.DisneyViewModel
 @Composable
 fun SharedTransitionScope.HomeScreen(
     viewModel: DisneyViewModel = koinViewModel<DisneyViewModel>(),
-    onClick: (Poster) -> Unit,
+    onClick: (Movie) -> Unit,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -49,8 +49,8 @@ fun SharedTransitionScope.HomeScreen(
     if (state.error.isNotEmpty()) {
         ErrorScreen(state.error, viewModel::refresh)
     }
-    if (state.posters.isNotEmpty()) {
-        HomeScreen(viewModel, state.posters, onClick, animatedVisibilityScope)
+    if (state.movies.isNotEmpty()) {
+        HomeScreen(viewModel, state.movies, onClick, animatedVisibilityScope)
     }
 }
 
@@ -58,11 +58,11 @@ fun SharedTransitionScope.HomeScreen(
 @Composable
 private fun SharedTransitionScope.HomeScreen(
     viewModel: DisneyViewModel,
-    posters: List<Poster>,
-    onClick: (Poster) -> Unit,
+    posters: List<Movie>,
+    onClick: (Movie) -> Unit,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
-    DisneyTopBar {
+    TMDbTopBar {
         PullToRefreshBox(
             modifier = Modifier.padding(it),
             isRefreshing = viewModel.isRefreshing,
@@ -80,8 +80,8 @@ private fun SharedTransitionScope.HomeScreen(
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun SharedTransitionScope.VerticalCollection(
-    posters: List<Poster>,
-    onClick: (Poster) -> Unit,
+    posters: List<Movie>,
+    onClick: (Movie) -> Unit,
     animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
     LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
@@ -98,8 +98,8 @@ private fun SharedTransitionScope.VerticalCollection(
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun SharedTransitionScope.VerticalListItem(
-    item: Poster,
-    onClick: (Poster) -> Unit,
+    item: Movie,
+    onClick: (Movie) -> Unit,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     val typography = MaterialTheme.typography
@@ -110,7 +110,7 @@ private fun SharedTransitionScope.VerticalListItem(
             .clickable { onClick.invoke(item) }
     ) {
         AsyncImage(
-            model = item.poster,
+            model = item.backdropPath,
             contentDescription = null,
             modifier = Modifier.sharedElement(
                 state = rememberSharedContentState(key = item.id),
@@ -130,15 +130,12 @@ private fun SharedTransitionScope.VerticalListItem(
             style = typography.h6,
             color = MaterialTheme.colors.onSurface
         )
-        Text(
-            text = item.release,
-            style = typography.body2,
-            color = MaterialTheme.colors.onSurface
-        )
-        Text(
-            text = item.playtime,
-            style = typography.subtitle2,
-            color = MaterialTheme.colors.onSurface
-        )
+        item.releaseDate?.let {
+            Text(
+                text = it,
+                style = typography.body2,
+                color = MaterialTheme.colors.onSurface
+            )
+        }
     }
 }
