@@ -25,6 +25,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -40,6 +41,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import component.DetailsScroller
@@ -47,10 +49,16 @@ import component.TMDbDetailTopBar
 import component.ToolbarState
 import component.isShown
 import domain.model.Movie
+import org.jetbrains.compose.resources.stringResource
+import tmdb_compose_multiplatform.composeapp.generated.resources.Res
+import tmdb_compose_multiplatform.composeapp.generated.resources.release_date
+import tmdb_compose_multiplatform.composeapp.generated.resources.vote_average
+import tmdb_compose_multiplatform.composeapp.generated.resources.vote_count
 import utils.Dimens.tmdb_12_dp
 import utils.Dimens.tmdb_16_dp
 import utils.Dimens.tmdb_32_dp
 import utils.Dimens.tmdb_448_dp
+import utils.Dimens.tmdb_4_dp
 import utils.Dimens.tmdb_8_dp
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -138,28 +146,15 @@ private fun SharedTransitionScope.DetailsContent(
             style = typography.h4,
             color = MaterialTheme.colors.onSurface
         )
-        item.releaseDate?.let {
-            Text(
-                modifier = Modifier.padding(tmdb_8_dp),
-                text = it,
-                style = typography.h5,
-                color = MaterialTheme.colors.onSurface
-            )
+        Row {
+            item.releaseDate?.let {
+                DetailItem(stringResource(Res.string.release_date), it)
+            }
+            DetailItem(stringResource(Res.string.vote_average), item.voteAverage.toString())
+            DetailItem(stringResource(Res.string.vote_count), item.voteCount.toString())
         }
         Text(
             modifier = Modifier.padding(tmdb_8_dp),
-            text = item.voteAverage.toString(),
-            style = typography.h6,
-            color = MaterialTheme.colors.onSurface
-        )
-        Text(
-            modifier = Modifier.padding(tmdb_8_dp),
-            text = item.voteCount.toString(),
-            style = typography.h6,
-            color = MaterialTheme.colors.onSurface
-        )
-        Text(
-            modifier = Modifier.padding(tmdb_8_dp),
             text = item.overview,
             style = typography.body1,
             fontSize = 18.sp,
@@ -177,6 +172,33 @@ private fun SharedTransitionScope.DetailsContent(
             text = item.overview,
             style = typography.body1,
             fontSize = 18.sp,
+            color = MaterialTheme.colors.onSurface
+        )
+    }
+}
+
+@Composable
+private fun DetailItem(
+    title: String,
+    value: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.padding(tmdb_4_dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            modifier = Modifier.padding(tmdb_4_dp),
+            text = title,
+            style = typography.subtitle1,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colors.onSurface
+        )
+        Text(
+            modifier = Modifier.padding(tmdb_4_dp),
+            text = value,
+            style = typography.subtitle2,
             color = MaterialTheme.colors.onSurface
         )
     }
