@@ -116,8 +116,6 @@ private fun SharedTransitionScope.DetailsContent(
     contentAlpha: () -> Float,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
-    val typography = MaterialTheme.typography
-
     Column(
         modifier = Modifier.verticalScroll(scrollState).fillMaxSize(),
         verticalArrangement = Arrangement.Center,

@@ -9,15 +9,15 @@ import androidx.room.Query
 interface MovieDao {
 
     /**
-     * Select all from the posters table.
+     * Select all from the movies table.
      *
-     * @return all posters.
+     * @return all movies.
      */
     @Query("SELECT * FROM movies")
     suspend fun getMovies(): List<MovieEntity>
 
     /**
-     * Insert posters in the database. If the poster already exists, replace it.
+     * Insert movies in the database. If the movie already exists, replace it.
      *
      * @param movies the movies to be inserted.
      */
