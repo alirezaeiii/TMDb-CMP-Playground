@@ -1,5 +1,5 @@
 <resources>
-    <string name="app-name">Disney</string>
+    <string name="app-name">TMDb</string>
     <string name="retry">Retry</string>
     <string name="release_date">Release Date</string>
     <string name="vote_average">Vote Average</string>
