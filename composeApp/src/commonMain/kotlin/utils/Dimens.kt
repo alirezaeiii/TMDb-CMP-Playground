@@ -3,6 +3,7 @@ package utils
 import androidx.compose.ui.unit.dp
 
 object Dimens {
+    val tmdb_4_dp = 4.dp
     val tmdb_8_dp = 8.dp
     val tmdb_12_dp = 12.dp
     val tmdb_16_dp = 16.dp
