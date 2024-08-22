@@ -49,6 +49,7 @@ import component.TMDbDetailTopBar
 import component.ToolbarState
 import component.isShown
 import domain.model.Movie
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import tmdb_compose_multiplatform.composeapp.generated.resources.Res
 import tmdb_compose_multiplatform.composeapp.generated.resources.release_date
@@ -146,10 +147,10 @@ private fun SharedTransitionScope.DetailsContent(
         )
         Row {
             item.releaseDate?.let {
-                DetailItem(stringResource(Res.string.release_date), it)
+                DetailItem(Res.string.release_date, it)
             }
-            DetailItem(stringResource(Res.string.vote_average), item.voteAverage.toString())
-            DetailItem(stringResource(Res.string.vote_count), item.voteCount.toString())
+            DetailItem(Res.string.vote_average, item.voteAverage.toString())
+            DetailItem(Res.string.vote_count, item.voteCount.toString())
         }
         Text(
             modifier = Modifier.padding(tmdb_8_dp),
@@ -177,7 +178,7 @@ private fun SharedTransitionScope.DetailsContent(
 
 @Composable
 private fun DetailItem(
-    title: String,
+    titleRes: StringResource,
     value: String,
     modifier: Modifier = Modifier
 ) {
@@ -188,7 +189,7 @@ private fun DetailItem(
     ) {
         Text(
             modifier = Modifier.padding(tmdb_4_dp),
-            text = title,
+            text = stringResource(titleRes),
             style = typography.subtitle1,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colors.onSurface
