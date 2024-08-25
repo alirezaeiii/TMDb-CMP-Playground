@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import org.jetbrains.compose.resources.stringResource
 import tmdb_compose_multiplatform.composeapp.generated.resources.Res
 import tmdb_compose_multiplatform.composeapp.generated.resources.retry
-import utils.Dimens.tmdb_16_dp
+import utils.Dimens.TMDb_16_dp
 
 @Composable
 fun ErrorScreen(message: String, refresh: () -> Unit) {
@@ -26,7 +26,7 @@ fun ErrorScreen(message: String, refresh: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(message, color = MaterialTheme.colors.onSurface, textAlign = TextAlign.Center)
-        Spacer(Modifier.height(tmdb_16_dp))
+        Spacer(Modifier.height(TMDb_16_dp))
         Button(onClick = refresh) {
             Text(text = stringResource(Res.string.retry))
         }

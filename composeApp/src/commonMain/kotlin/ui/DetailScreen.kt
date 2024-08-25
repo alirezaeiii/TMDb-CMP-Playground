@@ -55,12 +55,12 @@ import tmdb_compose_multiplatform.composeapp.generated.resources.Res
 import tmdb_compose_multiplatform.composeapp.generated.resources.release_date
 import tmdb_compose_multiplatform.composeapp.generated.resources.vote_average
 import tmdb_compose_multiplatform.composeapp.generated.resources.vote_count
-import utils.Dimens.tmdb_12_dp
-import utils.Dimens.tmdb_16_dp
-import utils.Dimens.tmdb_32_dp
-import utils.Dimens.tmdb_448_dp
-import utils.Dimens.tmdb_4_dp
-import utils.Dimens.tmdb_8_dp
+import utils.Dimens.TMDb_12_dp
+import utils.Dimens.TMDb_16_dp
+import utils.Dimens.TMDb_32_dp
+import utils.Dimens.TMDb_448_dp
+import utils.Dimens.TMDb_4_dp
+import utils.Dimens.TMDb_8_dp
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -131,16 +131,16 @@ private fun SharedTransitionScope.DetailsContent(
                 animatedVisibilityScope = animatedVisibilityScope
             )
                 .fillMaxWidth()
-                .height(tmdb_448_dp)
+                .height(TMDb_448_dp)
                 .alpha(contentAlpha()),
             contentScale = ContentScale.Crop,
         )
         Spacer(
             Modifier
-                .height(tmdb_16_dp)
+                .height(TMDb_16_dp)
                 .onGloballyPositioned { onNamePosition(it.positionInWindow().y) })
         Text(
-            modifier = Modifier.padding(tmdb_8_dp),
+            modifier = Modifier.padding(TMDb_8_dp),
             text = item.name,
             style = typography.h4,
             color = MaterialTheme.colors.onSurface
@@ -153,21 +153,21 @@ private fun SharedTransitionScope.DetailsContent(
             DetailItem(Res.string.vote_count, item.voteCount.toString())
         }
         Text(
-            modifier = Modifier.padding(tmdb_8_dp),
+            modifier = Modifier.padding(TMDb_8_dp),
             text = item.overview,
             style = typography.body1,
             fontSize = 18.sp,
             color = MaterialTheme.colors.onSurface
         )
         Text(
-            modifier = Modifier.padding(tmdb_8_dp),
+            modifier = Modifier.padding(TMDb_8_dp),
             text = item.overview,
             style = typography.body1,
             fontSize = 18.sp,
             color = MaterialTheme.colors.onSurface
         )
         Text(
-            modifier = Modifier.padding(tmdb_8_dp),
+            modifier = Modifier.padding(TMDb_8_dp),
             text = item.overview,
             style = typography.body1,
             fontSize = 18.sp,
@@ -183,19 +183,19 @@ private fun DetailItem(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.padding(tmdb_4_dp),
+        modifier = modifier.padding(TMDb_4_dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            modifier = Modifier.padding(tmdb_4_dp),
+            modifier = Modifier.padding(TMDb_4_dp),
             text = stringResource(titleRes),
             style = typography.subtitle1,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colors.onSurface
         )
         Text(
-            modifier = Modifier.padding(tmdb_4_dp),
+            modifier = Modifier.padding(TMDb_4_dp),
             text = value,
             style = typography.subtitle2,
             color = MaterialTheme.colors.onSurface
@@ -230,13 +230,13 @@ private fun HeaderActions(
     Row(
         modifier = modifier
             .fillMaxSize()
-            .padding(top = tmdb_12_dp),
+            .padding(top = TMDb_12_dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         val iconModifier = Modifier
             .sizeIn(
-                maxWidth = tmdb_32_dp,
-                maxHeight = tmdb_32_dp
+                maxWidth = TMDb_32_dp,
+                maxHeight = TMDb_32_dp
             )
             .background(
                 color = MaterialTheme.colors.surface,
@@ -246,7 +246,7 @@ private fun HeaderActions(
         IconButton(
             onClick = onBackClick,
             modifier = Modifier
-                .padding(start = tmdb_12_dp)
+                .padding(start = TMDb_12_dp)
                 .then(iconModifier)
         ) {
             Icon(

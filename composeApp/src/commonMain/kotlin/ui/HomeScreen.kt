@@ -3,36 +3,28 @@ package ui
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import coil3.compose.AsyncImage
-import component.Divider
 import component.ErrorScreen
 import component.ShimmerLoading
+import component.TMDbCard
 import component.TMDbTopBar
 import domain.model.Movie
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
-import utils.Dimens.tmdb_150_dp
-import utils.Dimens.tmdb_16_dp
+import utils.Dimens.TMDb_140_dp
+import utils.Dimens.TMDb_8_dp
 import viewmodel.DisneyViewModel
 
 @OptIn(ExperimentalSharedTransitionApi::class, KoinExperimentalAPI::class)
@@ -58,7 +50,7 @@ fun SharedTransitionScope.HomeScreen(
 @Composable
 private fun SharedTransitionScope.HomeScreen(
     viewModel: DisneyViewModel,
-    posters: List<Movie>,
+    movies: List<Movie>,
     onClick: (Movie) -> Unit,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
@@ -69,7 +61,7 @@ private fun SharedTransitionScope.HomeScreen(
             onRefresh = { viewModel.refresh(isLoading = false) }
         ) {
             VerticalCollection(
-                posters,
+                movies,
                 onClick,
                 animatedVisibilityScope,
             )
@@ -80,62 +72,30 @@ private fun SharedTransitionScope.HomeScreen(
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun SharedTransitionScope.VerticalCollection(
-    posters: List<Movie>,
+    movies: List<Movie>,
     onClick: (Movie) -> Unit,
     animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
-    LazyColumn(modifier = Modifier.background(MaterialTheme.colors.background)) {
-        items(
-            items = posters,
-            itemContent = { item ->
-                VerticalListItem(item = item, onClick, animatedVisibilityScope)
-                Divider()
-            }
-        )
-    }
-}
-
-@OptIn(ExperimentalSharedTransitionApi::class)
-@Composable
-private fun SharedTransitionScope.VerticalListItem(
-    item: Movie,
-    onClick: (Movie) -> Unit,
-    animatedVisibilityScope: AnimatedVisibilityScope
-) {
-    val typography = MaterialTheme.typography
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(tmdb_16_dp)
-            .clickable { onClick.invoke(item) }
-    ) {
-        AsyncImage(
-            model = item.backdropPath,
-            contentDescription = null,
-            modifier = Modifier.sharedElement(
-                state = rememberSharedContentState(key = item.id),
-                animatedVisibilityScope = animatedVisibilityScope,
-                boundsTransform = { _, _ ->
-                    tween(400)
+    LazyVerticalGrid(columns = GridCells.Adaptive(minSize = TMDb_140_dp),
+        contentPadding = PaddingValues(
+            start = TMDb_8_dp,
+            end = TMDb_8_dp,
+            bottom = TMDb_8_dp
+        ),
+        horizontalArrangement = Arrangement.spacedBy(
+            TMDb_8_dp, Alignment.CenterHorizontally
+        ),
+        content = {
+            items(
+                items = movies,
+                itemContent = { movie ->
+                    TMDbCard(
+                        movie,
+                        onClick,
+                        animatedVisibilityScope,
+                        Modifier.padding(vertical = TMDb_8_dp)
+                    )
                 }
             )
-                .height(tmdb_150_dp)
-                .fillMaxWidth()
-                .clip(shape = MaterialTheme.shapes.medium),
-            contentScale = ContentScale.Crop,
-        )
-        Spacer(Modifier.height(tmdb_16_dp))
-        Text(
-            text = item.name,
-            style = typography.h6,
-            color = MaterialTheme.colors.onSurface
-        )
-        item.releaseDate?.let {
-            Text(
-                text = it,
-                style = typography.body2,
-                color = MaterialTheme.colors.onSurface
-            )
-        }
-    }
+        })
 }

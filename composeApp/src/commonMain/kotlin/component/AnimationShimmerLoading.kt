@@ -14,7 +14,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -24,22 +25,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import utils.Dimens.tmdb_150_dp
-import utils.Dimens.tmdb_16_dp
-import utils.Dimens.tmdb_20_dp
-import utils.Dimens.tmdb_8_dp
+import utils.Dimens.TMDb_118_dp
+import utils.Dimens.TMDb_12_dp
+import utils.Dimens.TMDb_140_dp
+import utils.Dimens.TMDb_4_dp
+import utils.Dimens.TMDb_6_dp
+import utils.Dimens.TMDb_8_dp
 
 @Composable
 fun ShimmerLoading() {
     TMDbTopBar {
-        LazyColumn(
-            modifier = Modifier.background(MaterialTheme.colors.background).padding(it)
-        ) {
-            items(count = 3) {
-                ShimmerItem()
-                Divider()
-            }
-        }
+        LazyVerticalGrid(
+            modifier = Modifier.background(MaterialTheme.colors.background).padding(it),
+            columns = GridCells.Adaptive(minSize = TMDb_140_dp),
+            content = {
+                items(count = 20) {
+                    ShimmerItem()
+                }
+            })
     }
 }
 
@@ -49,21 +52,21 @@ private fun ShimmerItem() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(tmdb_16_dp)
+            .padding(TMDb_4_dp)
     ) {
         Box(
             modifier = Modifier
-                .height(tmdb_150_dp)
+                .height(TMDb_118_dp)
                 .fillMaxWidth()
                 .background(color = Color.LightGray)
                 .clip(shape = MaterialTheme.shapes.medium)
                 .shimmerLoadingAnimation(),
         )
-        Spacer(Modifier.height(tmdb_16_dp))
+        Spacer(Modifier.height(TMDb_8_dp))
         ComponentRectangleLineLong(.7f)
-        Spacer(modifier = Modifier.height(tmdb_8_dp))
+        Spacer(modifier = Modifier.height(TMDb_6_dp))
         ComponentRectangleLineLong(.4f)
-        Spacer(modifier = Modifier.height(tmdb_8_dp))
+        Spacer(modifier = Modifier.height(TMDb_6_dp))
     }
 }
 
@@ -73,9 +76,9 @@ private fun ComponentRectangleLineLong(
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(widthFraction)
-            .clip(shape = RoundedCornerShape(tmdb_8_dp))
+            .clip(shape = RoundedCornerShape(TMDb_8_dp))
             .background(color = Color.LightGray)
-            .height(tmdb_20_dp)
+            .height(TMDb_12_dp)
             .shimmerLoadingAnimation()
     )
 }
