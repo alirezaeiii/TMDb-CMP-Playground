@@ -43,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
@@ -152,7 +153,9 @@ private fun DetailsContent(
 
     with(sharedTransitionScope) {
         Column(
-            modifier = Modifier.verticalScroll(scrollState).fillMaxSize().sharedBounds(
+            modifier = Modifier.verticalScroll(scrollState).fillMaxSize()
+                .clip(RoundedCornerShape(roundedCornerAnim))
+                .sharedBounds(
                 rememberSharedContentState(
                     key = TMDbSharedElementKey(
                         tmdbId = movie.id,
@@ -173,20 +176,21 @@ private fun DetailsContent(
             AsyncImage(
                 model = movie.backdropPath,
                 contentDescription = null,
-                modifier = Modifier.sharedBounds(
-                    rememberSharedContentState(
-                        key = TMDbSharedElementKey(
-                            tmdbId = movie.id,
-                            type = TMDbSharedElementType.Image
-                        )
-                    ),
-                    animatedVisibilityScope = animatedVisibilityScope,
-                    exit = fadeOut(),
-                    enter = fadeIn(),
-                    boundsTransform = TMDbDetailBoundsTransform
-                ).fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
                     .height(TMDb_448_dp)
-                    .alpha(contentAlpha()),
+                    .alpha(contentAlpha())
+                    .sharedBounds(
+                        rememberSharedContentState(
+                            key = TMDbSharedElementKey(
+                                tmdbId = movie.id,
+                                type = TMDbSharedElementType.Image
+                            )
+                        ),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        exit = fadeOut(),
+                        enter = fadeIn(),
+                        boundsTransform = TMDbDetailBoundsTransform
+                    ),
                 contentScale = ContentScale.Crop,
             )
             Spacer(
