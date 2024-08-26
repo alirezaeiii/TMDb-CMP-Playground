@@ -1,6 +1,10 @@
+import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -25,33 +29,49 @@ import utils.MainDestinations.HOME_ROUTE
 fun App(navController: NavHostController = rememberNavController()) {
     ComposeTheme {
         SharedTransitionLayout {
-            NavHost(
-                navController = navController,
-                startDestination = HOME_ROUTE,
+            CompositionLocalProvider(
+                LocalSharedTransitionScope provides this
             ) {
-                composable(route = HOME_ROUTE) {
-                    HomeScreen(onClick = { movie ->
-                        navController.navigate(
-                            "$DETAIL_ROUTE/${
-                                UrlEncoderUtil.encode(Json.encodeToString(movie))
-                            }"
-                        )
-                    }, animatedVisibilityScope = this@composable)
-                }
-                composable(
-                    route = "$DETAIL_ROUTE/{${DISNEY_KEY}}",
-                    arguments = listOf(
-                        navArgument(DISNEY_KEY) { type = NavType.StringType })
-                ) { from ->
-                    from.arguments?.getString(DISNEY_KEY)?.let {
-                        DetailScreen(
-                            Json.decodeFromString<Movie>(it),
-                            navController::navigateUp,
-                            animatedVisibilityScope = this@composable
-                        )
+                NavHost(
+                    navController = navController,
+                    startDestination = HOME_ROUTE,
+                ) {
+                    composable(route = HOME_ROUTE) {
+                        CompositionLocalProvider(
+                            LocalNavAnimatedVisibilityScope provides this@composable
+                        ) {
+                            HomeScreen(onClick = { movie ->
+                                navController.navigate(
+                                    "$DETAIL_ROUTE/${
+                                        UrlEncoderUtil.encode(Json.encodeToString(movie))
+                                    }"
+                                )
+                            })
+                        }
+                    }
+                    composable(
+                        route = "$DETAIL_ROUTE/{${DISNEY_KEY}}",
+                        arguments = listOf(
+                            navArgument(DISNEY_KEY) { type = NavType.StringType })
+                    ) { from ->
+                        CompositionLocalProvider(
+                            LocalNavAnimatedVisibilityScope provides this@composable
+                        ) {
+                            from.arguments?.getString(DISNEY_KEY)?.let {
+                                DetailScreen(
+                                    Json.decodeFromString<Movie>(it),
+                                    navController::navigateUp
+                                )
+                            }
+                        }
                     }
                 }
             }
         }
     }
 }
+
+val LocalNavAnimatedVisibilityScope = compositionLocalOf<AnimatedVisibilityScope?> { null }
+
+@OptIn(ExperimentalSharedTransitionApi::class)
+val LocalSharedTransitionScope = compositionLocalOf<SharedTransitionScope?> { null }

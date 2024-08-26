@@ -19,10 +19,10 @@ package component
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.ScrollState
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.dp
+import utils.Dimens.TMDb_16_dp
 
 // Value obtained empirically so that the header buttons don't surpass the header container
-private val HeaderTransitionOffset = 64.dp
+private val HeaderTransitionOffset = TMDb_16_dp
 
 /**
  * Class that contains derived state for when the toolbar should be shown

@@ -1,12 +1,17 @@
 package ui
 
-import androidx.compose.animation.AnimatedVisibilityScope
+import LocalNavAnimatedVisibilityScope
+import LocalSharedTransitionScope
+import androidx.compose.animation.BoundsTransform
+import androidx.compose.animation.EnterExitState
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +26,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -42,6 +48,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import component.DetailsScroller
@@ -61,13 +68,28 @@ import utils.Dimens.TMDb_32_dp
 import utils.Dimens.TMDb_448_dp
 import utils.Dimens.TMDb_4_dp
 import utils.Dimens.TMDb_8_dp
+import utils.TMDbSharedElementKey
+import utils.TMDbSharedElementType
+
+fun <T> spatialExpressiveSpring() = spring<T>(
+    dampingRatio = 0.8f,
+    stiffness = 380f
+)
+
+fun <T> nonSpatialExpressiveSpring() = spring<T>(
+    dampingRatio = 1f,
+    stiffness = 1600f
+)
 
 @OptIn(ExperimentalSharedTransitionApi::class)
+val TMDbDetailBoundsTransform = BoundsTransform { _, _ ->
+    spatialExpressiveSpring()
+}
+
 @Composable
-fun SharedTransitionScope.DetailScreen(
+fun DetailScreen(
     movie: Movie,
-    pressOnBack: () -> Unit,
-    animatedVisibilityScope: AnimatedVisibilityScope
+    pressOnBack: () -> Unit
 ) {
     val scrollState = rememberScrollState()
     var detailScroller by remember {
@@ -97,9 +119,8 @@ fun SharedTransitionScope.DetailScreen(
                         detailScroller.copy(namePosition = newNamePosition)
                 }
             },
-            item = movie,
-            contentAlpha = { contentAlpha.value },
-            animatedVisibilityScope = animatedVisibilityScope
+            movie = movie,
+            contentAlpha = { contentAlpha.value }
         )
         DetailsToolbar(
             toolbarState, movie.name, pressOnBack,
@@ -110,78 +131,144 @@ fun SharedTransitionScope.DetailScreen(
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-private fun SharedTransitionScope.DetailsContent(
+private fun DetailsContent(
     scrollState: ScrollState,
     onNamePosition: (Float) -> Unit,
-    item: Movie,
-    contentAlpha: () -> Float,
-    animatedVisibilityScope: AnimatedVisibilityScope
+    movie: Movie,
+    contentAlpha: () -> Float
 ) {
-    Column(
-        modifier = Modifier.verticalScroll(scrollState).fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-
-    ) {
-        AsyncImage(
-            model = item.backdropPath,
-            contentDescription = null,
-            modifier = Modifier.sharedElement(
-                state = rememberSharedContentState(key = item.id),
-                animatedVisibilityScope = animatedVisibilityScope
-            )
-                .fillMaxWidth()
-                .height(TMDb_448_dp)
-                .alpha(contentAlpha()),
-            contentScale = ContentScale.Crop,
-        )
-        Spacer(
-            Modifier
-                .height(TMDb_16_dp)
-                .onGloballyPositioned { onNamePosition(it.positionInWindow().y) })
-        Text(
-            modifier = Modifier.padding(TMDb_8_dp),
-            text = item.name,
-            style = typography.h4,
-            color = MaterialTheme.colors.onSurface
-        )
-        Row {
-            item.releaseDate?.let {
-                DetailItem(Res.string.release_date, it)
+    val sharedTransitionScope = LocalSharedTransitionScope.current
+        ?: throw IllegalStateException("No Scope found")
+    val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
+        ?: throw IllegalStateException("No Scope found")
+    val roundedCornerAnim by animatedVisibilityScope.transition
+        .animateDp(label = "rounded corner") { enterExit: EnterExitState ->
+            when (enterExit) {
+                EnterExitState.PreEnter -> TMDb_8_dp
+                EnterExitState.Visible -> 0.dp
+                EnterExitState.PostExit -> TMDb_8_dp
             }
-            DetailItem(Res.string.vote_average, item.voteAverage.toString())
-            DetailItem(Res.string.vote_count, item.voteCount.toString())
         }
-        Text(
-            modifier = Modifier.padding(TMDb_8_dp),
-            text = item.overview,
-            style = typography.body1,
-            fontSize = 18.sp,
-            color = MaterialTheme.colors.onSurface
-        )
-        Text(
-            modifier = Modifier.padding(TMDb_8_dp),
-            text = item.overview,
-            style = typography.body1,
-            fontSize = 18.sp,
-            color = MaterialTheme.colors.onSurface
-        )
-        Text(
-            modifier = Modifier.padding(TMDb_8_dp),
-            text = item.overview,
-            style = typography.body1,
-            fontSize = 18.sp,
-            color = MaterialTheme.colors.onSurface
-        )
+
+    with(sharedTransitionScope) {
+        Column(
+            modifier = Modifier.verticalScroll(scrollState).fillMaxSize().sharedBounds(
+                rememberSharedContentState(
+                    key = TMDbSharedElementKey(
+                        tmdbId = movie.id,
+                        type = TMDbSharedElementType.Bounds
+                    )
+                ),
+                animatedVisibilityScope,
+                clipInOverlayDuringTransition =
+                OverlayClip(RoundedCornerShape(roundedCornerAnim)),
+                boundsTransform = TMDbDetailBoundsTransform,
+                exit = fadeOut(nonSpatialExpressiveSpring()),
+                enter = fadeIn(nonSpatialExpressiveSpring()),
+            ),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ) {
+            AsyncImage(
+                model = movie.backdropPath,
+                contentDescription = null,
+                modifier = Modifier.sharedBounds(
+                    rememberSharedContentState(
+                        key = TMDbSharedElementKey(
+                            tmdbId = movie.id,
+                            type = TMDbSharedElementType.Image
+                        )
+                    ),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    exit = fadeOut(),
+                    enter = fadeIn(),
+                    boundsTransform = TMDbDetailBoundsTransform
+                ).fillMaxWidth()
+                    .height(TMDb_448_dp)
+                    .alpha(contentAlpha()),
+                contentScale = ContentScale.Crop,
+            )
+            Spacer(
+                Modifier
+                    .height(TMDb_16_dp)
+                    .onGloballyPositioned { onNamePosition(it.positionInWindow().y) })
+            Text(
+                modifier = Modifier.padding(TMDb_8_dp).sharedBounds(
+                    rememberSharedContentState(
+                        key = TMDbSharedElementKey(
+                            tmdbId = movie.id,
+                            type = TMDbSharedElementType.Title
+                        )
+                    ),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    boundsTransform = TMDbDetailBoundsTransform
+                ),
+                text = movie.name,
+                style = typography.h4,
+                color = MaterialTheme.colors.onSurface
+            )
+            Row {
+                movie.releaseDate?.let {
+                    DetailItem(
+                        Res.string.release_date,
+                        it,
+                        movie.id,
+                        TMDbSharedElementType.ReleaseDate
+                    )
+                }
+                DetailItem(
+                    Res.string.vote_average,
+                    movie.voteAverage.toString(),
+                    movie.id,
+                    TMDbSharedElementType.Rate
+                )
+                DetailItem(
+                    Res.string.vote_count,
+                    movie.voteCount.toString(),
+                    movie.id,
+                    TMDbSharedElementType.VOTE
+                )
+            }
+            Text(
+                modifier = Modifier.padding(TMDb_8_dp),
+                text = movie.overview,
+                style = typography.body1,
+                fontSize = 18.sp,
+                color = MaterialTheme.colors.onSurface
+            )
+            Text(
+                modifier = Modifier.padding(TMDb_8_dp),
+                text = movie.overview,
+                style = typography.body1,
+                fontSize = 18.sp,
+                color = MaterialTheme.colors.onSurface
+            )
+            Text(
+                modifier = Modifier.padding(TMDb_8_dp),
+                text = movie.overview,
+                style = typography.body1,
+                fontSize = 18.sp,
+                color = MaterialTheme.colors.onSurface
+            )
+        }
     }
 }
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun DetailItem(
     titleRes: StringResource,
     value: String,
+    movieId: Int,
+    type: TMDbSharedElementType,
     modifier: Modifier = Modifier
 ) {
+    val sharedTransitionScope = LocalSharedTransitionScope.current
+        ?: throw IllegalStateException("No Scope found")
+    val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
+        ?: throw IllegalStateException("No Scope found")
+
     Column(
         modifier = modifier.padding(TMDb_4_dp),
         verticalArrangement = Arrangement.Center,
@@ -194,12 +281,24 @@ private fun DetailItem(
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colors.onSurface
         )
-        Text(
-            modifier = Modifier.padding(TMDb_4_dp),
-            text = value,
-            style = typography.subtitle2,
-            color = MaterialTheme.colors.onSurface
-        )
+        with(sharedTransitionScope) {
+            Text(
+                modifier = Modifier.padding(TMDb_4_dp)
+                    .sharedBounds(
+                        rememberSharedContentState(
+                            key = TMDbSharedElementKey(
+                                tmdbId = movieId,
+                                type = type
+                            )
+                        ),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = TMDbDetailBoundsTransform
+                    ),
+                text = value,
+                style = typography.subtitle2,
+                color = MaterialTheme.colors.onSurface
+            )
+        }
     }
 }
 

@@ -1,8 +1,6 @@
 package ui
 
-import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -27,12 +25,11 @@ import utils.Dimens.TMDb_140_dp
 import utils.Dimens.TMDb_8_dp
 import viewmodel.DisneyViewModel
 
-@OptIn(ExperimentalSharedTransitionApi::class, KoinExperimentalAPI::class)
+@OptIn(KoinExperimentalAPI::class)
 @Composable
-fun SharedTransitionScope.HomeScreen(
+fun HomeScreen(
     viewModel: DisneyViewModel = koinViewModel<DisneyViewModel>(),
-    onClick: (Movie) -> Unit,
-    animatedVisibilityScope: AnimatedVisibilityScope
+    onClick: (Movie) -> Unit
 ) {
     val state by viewModel.uiState.collectAsState()
     if (state.isLoading) {
@@ -42,17 +39,16 @@ fun SharedTransitionScope.HomeScreen(
         ErrorScreen(state.error, viewModel::refresh)
     }
     if (state.movies.isNotEmpty()) {
-        HomeScreen(viewModel, state.movies, onClick, animatedVisibilityScope)
+        HomeScreen(viewModel, state.movies, onClick)
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SharedTransitionScope.HomeScreen(
+private fun HomeScreen(
     viewModel: DisneyViewModel,
     movies: List<Movie>,
-    onClick: (Movie) -> Unit,
-    animatedVisibilityScope: AnimatedVisibilityScope
+    onClick: (Movie) -> Unit
 ) {
     TMDbTopBar {
         PullToRefreshBox(
@@ -62,19 +58,16 @@ private fun SharedTransitionScope.HomeScreen(
         ) {
             VerticalCollection(
                 movies,
-                onClick,
-                animatedVisibilityScope,
+                onClick
             )
         }
     }
 }
 
-@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-private fun SharedTransitionScope.VerticalCollection(
+private fun VerticalCollection(
     movies: List<Movie>,
-    onClick: (Movie) -> Unit,
-    animatedVisibilityScope: AnimatedVisibilityScope,
+    onClick: (Movie) -> Unit
 ) {
     LazyVerticalGrid(columns = GridCells.Adaptive(minSize = TMDb_140_dp),
         contentPadding = PaddingValues(
@@ -92,7 +85,6 @@ private fun SharedTransitionScope.VerticalCollection(
                     TMDbCard(
                         movie,
                         onClick,
-                        animatedVisibilityScope,
                         Modifier.padding(vertical = TMDb_8_dp)
                     )
                 }
