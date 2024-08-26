@@ -12,7 +12,7 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
-import viewmodel.DisneyViewModel
+import viewmodel.TMDbViewModel
 
 fun initKoin(config: KoinAppDeclaration? = null) {
     startKoin {
@@ -25,7 +25,7 @@ expect fun platformModule(): Module
 
 val sharedModule = module {
     single<TMDbRepository> { TMDbRepositoryImpl(get(), get(), get(named("io"))) }
-    viewModelOf(::DisneyViewModel)
+    viewModelOf(::TMDbViewModel)
 }
 
 val dispatcherModule = module {

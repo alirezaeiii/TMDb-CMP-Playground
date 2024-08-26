@@ -24,12 +24,12 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import utils.Dimens.TMDb_140_dp
 import utils.Dimens.TMDb_8_dp
-import viewmodel.DisneyViewModel
+import viewmodel.TMDbViewModel
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun HomeScreen(
-    viewModel: DisneyViewModel = koinViewModel<DisneyViewModel>(),
+    viewModel: TMDbViewModel = koinViewModel<TMDbViewModel>(),
     onClick: (Movie) -> Unit
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -47,7 +47,7 @@ fun HomeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreen(
-    viewModel: DisneyViewModel,
+    viewModel: TMDbViewModel,
     movies: List<Movie>,
     onClick: (Movie) -> Unit
 ) {
