@@ -1,7 +1,7 @@
 package utils
 
 data class TMDbSharedElementKey(
-    val tmdbId: Int,
+    val movieId: Int,
     val type: TMDbSharedElementType
 )
 
@@ -10,6 +10,5 @@ enum class TMDbSharedElementType {
     Image,
     Title,
     ReleaseDate,
-    Rate,
     VOTE
 }

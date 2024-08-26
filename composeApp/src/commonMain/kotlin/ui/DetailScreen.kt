@@ -156,19 +156,19 @@ private fun DetailsContent(
             modifier = Modifier.verticalScroll(scrollState).fillMaxSize()
                 .clip(RoundedCornerShape(roundedCornerAnim))
                 .sharedBounds(
-                rememberSharedContentState(
-                    key = TMDbSharedElementKey(
-                        tmdbId = movie.id,
-                        type = TMDbSharedElementType.Bounds
-                    )
+                    rememberSharedContentState(
+                        key = TMDbSharedElementKey(
+                            movieId = movie.id,
+                            type = TMDbSharedElementType.Bounds
+                        )
+                    ),
+                    animatedVisibilityScope,
+                    clipInOverlayDuringTransition =
+                    OverlayClip(RoundedCornerShape(roundedCornerAnim)),
+                    boundsTransform = TMDbDetailBoundsTransform,
+                    exit = fadeOut(nonSpatialExpressiveSpring()),
+                    enter = fadeIn(nonSpatialExpressiveSpring()),
                 ),
-                animatedVisibilityScope,
-                clipInOverlayDuringTransition =
-                OverlayClip(RoundedCornerShape(roundedCornerAnim)),
-                boundsTransform = TMDbDetailBoundsTransform,
-                exit = fadeOut(nonSpatialExpressiveSpring()),
-                enter = fadeIn(nonSpatialExpressiveSpring()),
-            ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
 
@@ -182,7 +182,7 @@ private fun DetailsContent(
                     .sharedBounds(
                         rememberSharedContentState(
                             key = TMDbSharedElementKey(
-                                tmdbId = movie.id,
+                                movieId = movie.id,
                                 type = TMDbSharedElementType.Image
                             )
                         ),
@@ -201,7 +201,7 @@ private fun DetailsContent(
                 modifier = Modifier.padding(TMDb_8_dp).sharedBounds(
                     rememberSharedContentState(
                         key = TMDbSharedElementKey(
-                            tmdbId = movie.id,
+                            movieId = movie.id,
                             type = TMDbSharedElementType.Title
                         )
                     ),
@@ -224,8 +224,6 @@ private fun DetailsContent(
                 DetailItem(
                     Res.string.vote_average,
                     movie.voteAverage.toString(),
-                    movie.id,
-                    TMDbSharedElementType.Rate
                 )
                 DetailItem(
                     Res.string.vote_count,
@@ -264,8 +262,8 @@ private fun DetailsContent(
 private fun DetailItem(
     titleRes: StringResource,
     value: String,
-    movieId: Int,
-    type: TMDbSharedElementType,
+    movieId: Int? = null,
+    type: TMDbSharedElementType? = null,
     modifier: Modifier = Modifier
 ) {
     val sharedTransitionScope = LocalSharedTransitionScope.current
@@ -288,15 +286,17 @@ private fun DetailItem(
         with(sharedTransitionScope) {
             Text(
                 modifier = Modifier.padding(TMDb_4_dp)
-                    .sharedBounds(
-                        rememberSharedContentState(
-                            key = TMDbSharedElementKey(
-                                tmdbId = movieId,
-                                type = type
-                            )
-                        ),
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        boundsTransform = TMDbDetailBoundsTransform
+                    .then(
+                        if (movieId != null && type != null) Modifier.sharedBounds(
+                            rememberSharedContentState(
+                                key = TMDbSharedElementKey(
+                                    movieId = movieId,
+                                    type = type
+                                )
+                            ),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = TMDbDetailBoundsTransform
+                        ) else Modifier
                     ),
                 text = value,
                 style = typography.subtitle2,

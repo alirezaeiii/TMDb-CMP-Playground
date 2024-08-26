@@ -88,7 +88,7 @@ fun TMDbCard(
                 .sharedBounds(
                     sharedContentState = rememberSharedContentState(
                         key = TMDbSharedElementKey(
-                            tmdbId = movie.id,
+                            movieId = movie.id,
                             type = TMDbSharedElementType.Bounds
                         )
                     ),
@@ -116,7 +116,7 @@ fun TMDbCard(
                     modifier = Modifier.sharedBounds(
                         rememberSharedContentState(
                             key = TMDbSharedElementKey(
-                                tmdbId = movie.id,
+                                movieId = movie.id,
                                 type = TMDbSharedElementType.Image
                             )
                         ),
@@ -190,7 +190,7 @@ private fun TMDbItemName(movie: Movie) {
             modifier = Modifier.sharedBounds(
                 rememberSharedContentState(
                     key = TMDbSharedElementKey(
-                        tmdbId = movie.id,
+                        movieId = movie.id,
                         type = TMDbSharedElementType.Title
                     )
                 ),
@@ -239,7 +239,7 @@ private fun TMDbItemFeature(
                     .sharedBounds(
                         rememberSharedContentState(
                             key = TMDbSharedElementKey(
-                                tmdbId = movieId,
+                                movieId = movieId,
                                 type = type
                             )
                         ),
