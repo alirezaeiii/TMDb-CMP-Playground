@@ -8,7 +8,12 @@ import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,8 +21,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -29,15 +32,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import coil3.compose.AsyncImage
 import domain.model.Movie
+import theme.Neutral3
+import theme.Neutral4
 import ui.TMDbDetailBoundsTransform
 import ui.nonSpatialExpressiveSpring
 import utils.Dimens.TMDb_150_dp
@@ -48,7 +59,7 @@ import utils.Dimens.TMDb_8_dp
 import utils.TMDbSharedElementKey
 import utils.TMDbSharedElementType
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalSharedTransitionApi::class)
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun TMDbCard(
     movie: Movie,
@@ -60,6 +71,8 @@ fun TMDbCard(
     val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
         ?: throw IllegalStateException("No animatedVisibilityScope found")
 
+    val borderColor: Color = if (isSystemInDarkTheme()) Neutral3 else Neutral4
+
     with(sharedTransitionScope) {
         val roundedCornerAnimation by animatedVisibilityScope.transition
             .animateDp(label = "rounded corner") { enterExit: EnterExitState ->
@@ -69,7 +82,7 @@ fun TMDbCard(
                     EnterExitState.PostExit -> TMDb_8_dp
                 }
             }
-        Card(
+        TMDbSurface(
             shape = RoundedCornerShape(roundedCornerAnimation),
             modifier = modifier
                 .sharedBounds(
@@ -88,8 +101,13 @@ fun TMDbCard(
                     ),
                     enter = fadeIn(),
                     exit = fadeOut()
-                ),
-            onClick = { onClick.invoke(movie) }
+                ).border(
+                    1.dp,
+                    borderColor.copy(alpha = 0.12f),
+                    RoundedCornerShape(roundedCornerAnimation)
+                ).clickable {
+                    onClick.invoke(movie)
+                }
         ) {
             Column {
                 AsyncImage(
@@ -233,5 +251,26 @@ private fun TMDbItemFeature(
                     )
             )
         }
+    }
+}
+
+@Composable
+fun TMDbSurface(
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
+    color: Color = MaterialTheme.colors.background,
+    elevation: Dp = 0.dp,
+    content: @Composable () -> Unit,
+) {
+    Box(
+        modifier = modifier
+            .shadow(elevation = elevation, shape = shape, clip = false)
+            .zIndex(elevation.value)
+            .background(
+                color = color,
+                shape = shape
+            ).clip(shape)
+    ) {
+        content.invoke()
     }
 }
