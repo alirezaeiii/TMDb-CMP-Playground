@@ -7,10 +7,10 @@ object Dimens {
     val TMDb_4_dp = 4.dp
     val TMDb_6_dp = 6.dp
     val TMDb_8_dp = 8.dp
+    val TMDb_10_dp = 10.dp
     val TMDb_12_dp = 12.dp
     val TMDb_16_dp = 16.dp
     val TMDb_32_dp = 32.dp
-    val TMDb_118_dp = 118.dp
     val TMDb_140_dp = 140.dp
     val TMDb_150_dp = 150.dp
     val TMDb_448_dp = 448.dp
