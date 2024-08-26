@@ -9,6 +9,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -29,7 +30,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import theme.Neutral3
 import theme.Neutral4
-import utils.Dimens.TMDb_10_dp
 import utils.Dimens.TMDb_12_dp
 import utils.Dimens.TMDb_140_dp
 import utils.Dimens.TMDb_150_dp
@@ -56,14 +56,15 @@ fun ShimmerLoading() {
 private fun ShimmerItem() {
     val borderColor: Color = if (isSystemInDarkTheme()) Neutral3 else Neutral4
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(TMDb_4_dp)
-            .border(
-                1.dp,
-                borderColor.copy(alpha = 0.12f),
-                RoundedCornerShape(TMDb_8_dp),
-            )
+        verticalArrangement = Arrangement.spacedBy(TMDb_4_dp),
+        modifier = Modifier.padding(
+            horizontal = TMDb_6_dp,
+            vertical = TMDb_8_dp
+        ).border(
+            1.dp,
+            borderColor.copy(alpha = 0.12f),
+            RoundedCornerShape(TMDb_8_dp),
+        )
     ) {
         Box(
             modifier = Modifier
@@ -73,11 +74,11 @@ private fun ShimmerItem() {
                 .clip(shape = MaterialTheme.shapes.medium)
                 .shimmerLoadingAnimation()
         )
-        Spacer(Modifier.height(TMDb_6_dp))
+        Spacer(Modifier.height(TMDb_4_dp))
         ComponentRectangleLineLong(.7f)
-        Spacer(modifier = Modifier.height(TMDb_10_dp))
+        Spacer(modifier = Modifier.height(TMDb_6_dp))
         ComponentRectangleLineLong(.4f)
-        Spacer(modifier = Modifier.height(TMDb_8_dp))
+        Spacer(modifier = Modifier.height(TMDb_4_dp))
     }
 }
 
@@ -87,7 +88,7 @@ private fun ComponentRectangleLineLong(
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(widthFraction)
-            .padding(start = TMDb_4_dp)
+            .padding(start = TMDb_6_dp)
             .clip(shape = RoundedCornerShape(TMDb_8_dp))
             .background(color = Color.LightGray)
             .height(TMDb_12_dp)
