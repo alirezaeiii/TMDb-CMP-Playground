@@ -58,7 +58,7 @@ private fun ShimmerItem() {
     Column(
         verticalArrangement = Arrangement.spacedBy(TMDb_4_dp),
         modifier = Modifier.padding(
-            horizontal = TMDb_6_dp,
+            horizontal = TMDb_4_dp,
             vertical = TMDb_8_dp
         ).border(
             1.dp,
@@ -71,7 +71,7 @@ private fun ShimmerItem() {
                 .height(TMDb_150_dp)
                 .fillMaxWidth()
                 .background(color = Color.LightGray)
-                .clip(shape = MaterialTheme.shapes.medium)
+                .clip(shape = MaterialTheme.shapes.large)
                 .shimmerLoadingAnimation()
         )
         Spacer(Modifier.height(TMDb_4_dp))
