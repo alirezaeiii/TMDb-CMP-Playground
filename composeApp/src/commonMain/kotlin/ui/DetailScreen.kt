@@ -8,8 +8,8 @@ import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ScrollState
@@ -102,7 +102,7 @@ fun DetailScreen(
     val toolbarState = detailScroller.getToolbarState(LocalDensity.current)
 
     // Transition that fades in/out the header with the image and the Toolbar
-    val transition = updateTransition(transitionState, label = "")
+    val transition = rememberTransition(transitionState, label = "")
     val contentAlpha = transition.animateFloat(
         transitionSpec = { spring(stiffness = Spring.StiffnessLow) }, label = ""
     ) { toolbarTransitionState ->
