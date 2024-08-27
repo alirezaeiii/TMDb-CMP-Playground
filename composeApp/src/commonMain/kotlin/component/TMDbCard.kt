@@ -11,7 +11,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,8 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import coil3.compose.AsyncImage
 import domain.model.Movie
-import theme.Neutral3
-import theme.Neutral4
+import theme.getBorderColor
 import ui.TMDbDetailBoundsTransform
 import ui.nonSpatialExpressiveSpring
 import utils.Dimens.TMDb_150_dp
@@ -70,8 +68,6 @@ fun TMDbCard(
         ?: throw IllegalStateException("No sharedTransitionScope found")
     val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
         ?: throw IllegalStateException("No animatedVisibilityScope found")
-
-    val borderColor: Color = if (isSystemInDarkTheme()) Neutral3 else Neutral4
 
     with(sharedTransitionScope) {
         val roundedCornerAnimation by animatedVisibilityScope.transition
@@ -103,7 +99,7 @@ fun TMDbCard(
                     exit = fadeOut()
                 ).border(
                     1.dp,
-                    borderColor.copy(alpha = 0.12f),
+                    getBorderColor().copy(alpha = 0.12f),
                     RoundedCornerShape(roundedCornerAnimation)
                 ).clickable {
                     onClick.invoke(movie)

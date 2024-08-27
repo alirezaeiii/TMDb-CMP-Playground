@@ -28,8 +28,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import theme.Neutral3
-import theme.Neutral4
+import theme.getBorderColor
 import utils.Dimens.TMDb_12_dp
 import utils.Dimens.TMDb_140_dp
 import utils.Dimens.TMDb_150_dp
@@ -54,7 +53,6 @@ fun ShimmerLoading() {
 
 @Composable
 private fun ShimmerItem() {
-    val borderColor: Color = if (isSystemInDarkTheme()) Neutral3 else Neutral4
     Column(
         verticalArrangement = Arrangement.spacedBy(TMDb_4_dp),
         modifier = Modifier.padding(
@@ -62,7 +60,7 @@ private fun ShimmerItem() {
             vertical = TMDb_8_dp
         ).border(
             1.dp,
-            borderColor.copy(alpha = 0.12f),
+            getBorderColor().copy(alpha = 0.12f),
             RoundedCornerShape(TMDb_8_dp),
         )
     ) {
