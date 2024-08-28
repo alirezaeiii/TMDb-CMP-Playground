@@ -10,5 +10,5 @@ enum class TMDbSharedElementType {
     Image,
     Title,
     ReleaseDate,
-    VOTE
+    Vote
 }

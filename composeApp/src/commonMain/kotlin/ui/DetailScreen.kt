@@ -229,7 +229,7 @@ private fun DetailsContent(
                     Res.string.vote_count,
                     movie.voteCount.toString(),
                     movie.id,
-                    TMDbSharedElementType.VOTE
+                    TMDbSharedElementType.Vote
                 )
             }
             Text(

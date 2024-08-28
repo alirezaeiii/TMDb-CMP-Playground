@@ -158,7 +158,7 @@ private fun TMDbItemInfo(movie: Movie, modifier: Modifier) {
                 Icons.Default.ThumbUp,
                 movie.voteCount.toString(),
                 movie.id,
-                TMDbSharedElementType.VOTE
+                TMDbSharedElementType.Vote
             )
         }
     }
