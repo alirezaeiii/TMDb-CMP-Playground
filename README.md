@@ -15,6 +15,13 @@ This is a Compose Multiplatform project targeting Android, iOS.
   <img src="https://github.com/alirezaeiii/Disney-Compose-Multiplatform/blob/main/screenshots/screenshot1.gif" width="250" />
 </p>
 
+## Prerequisites
+
+Add your [TMDB](https://www.themoviedb.org/) API key in the `local.properties` file:
+```
+TMDB_API_KEY=YOUR_API_KEY
+```
+
 ## Libraries
 * [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) - Compose Multiplatform, a modern UI framework for Kotlin that makes building performant and beautiful user interfaces.
 * [Jetbrain Navigation Compose](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation-routing.html) - The Navigation component provides support for Jetpack Compose applications. You can navigate between composables while taking advantage of the Navigation component’s infrastructure and features.
