@@ -1,3 +1,6 @@
+# TMDb-CMP-Playground
+Minimal CMP project that showcase shered element transition as well as caching.
+
 This is a Compose Multiplatform project targeting Android, iOS.
 
 * `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
