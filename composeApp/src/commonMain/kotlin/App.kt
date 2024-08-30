@@ -5,6 +5,7 @@ import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
+import androidx.lifecycle.compose.dropUnlessResumed
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -40,7 +41,7 @@ fun App(navController: NavHostController = rememberNavController()) {
                         CompositionLocalProvider(
                             LocalNavAnimatedVisibilityScope provides this@composable
                         ) {
-                            HomeScreen(onClick = { movie ->
+                            HomeScreen( onClick = { movie ->
                                 navController.navigate(
                                     "$DETAIL_ROUTE/${
                                         UrlEncoderUtil.encode(Json.encodeToString(movie))
@@ -60,7 +61,9 @@ fun App(navController: NavHostController = rememberNavController()) {
                             from.arguments?.getString(DISNEY_KEY)?.let {
                                 DetailScreen(
                                     Json.decodeFromString<Movie>(it),
-                                    navController::navigateUp
+                                    dropUnlessResumed {
+                                        navController.navigateUp()
+                                    }
                                 )
                             }
                         }
