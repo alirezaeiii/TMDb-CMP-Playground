@@ -1,6 +1,6 @@
 package data.repository
 
-import data.database.AppDatabase
+import data.database.MovieDao
 import data.database.asDomainModel
 import data.response.TMDbWrapper
 import data.response.asDatabaseModel
@@ -16,18 +16,18 @@ import kotlinx.coroutines.flow.flowOn
 
 class TMDbRepositoryImpl(
     private val httpClient: HttpClient,
-    private val database: AppDatabase,
+    private val dao: MovieDao,
     private val dispatcher: CoroutineDispatcher
 ) : TMDbRepository {
 
     override suspend fun getPosters(): Flow<Result<List<Movie>>> = flow {
-        val cache = database.movieDao().getMovies()
+        val cache = dao.getMovies()
         if (cache.isEmpty()) {
             try {
                 // ****** STEP 1: MAKE NETWORK CALL, SAVE RESULT TO CACHE ******
                 refresh()
-                // ****** STEP 3: VIEW CACHE ******
-                emit(Result.success(database.movieDao().getMovies().asDomainModel()))
+                // ****** STEP 2: VIEW CACHE ******
+                emit(Result.success(dao.getMovies().asDomainModel()))
             } catch (e: Exception) {
                 emit(Result.failure(e))
             }
@@ -38,7 +38,7 @@ class TMDbRepositoryImpl(
                 // ****** STEP 2: MAKE NETWORK CALL, SAVE RESULT TO CACHE ******
                 refresh()
                 // ****** STEP 3: VIEW CACHE ******
-                emit(Result.success(database.movieDao().getMovies().asDomainModel()))
+                emit(Result.success(dao.getMovies().asDomainModel()))
             } catch (_: Throwable) {
             }
         }
@@ -46,6 +46,6 @@ class TMDbRepositoryImpl(
 
     private suspend fun refresh() {
         val response = httpClient.get("discover/movie").body<TMDbWrapper>()
-        database.movieDao().insertAll(*response.items.asDatabaseModel())
+        dao.insertAll(*response.items.asDatabaseModel())
     }
 }
