@@ -1,7 +1,7 @@
 package di
 
-import base.jsonModule
-import base.ktorModule
+import network.jsonModule
+import network.ktorModule
 import data.database.AppDatabase
 import data.repository.TMDbRepositoryImpl
 import domain.repository.TMDbRepository
@@ -22,17 +22,21 @@ fun initKoin(config: KoinAppDeclaration? = null) {
             jsonModule,
             ktorModule,
             dispatcherModule,
-            sharedModule,
-            platformModule(),
-            persistenceModule
+            repositoryModule,
+            viewModelModule,
+            persistenceModule,
+            platformModule()
         )
     }
 }
 
 expect fun platformModule(): Module
 
-val sharedModule = module {
+val repositoryModule = module {
     single<TMDbRepository> { TMDbRepositoryImpl(get(), get(), get(named("io"))) }
+}
+
+val viewModelModule = module {
     viewModelOf(::TMDbViewModel)
 }
 

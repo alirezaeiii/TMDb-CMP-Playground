@@ -1,4 +1,4 @@
-package base
+package network
 
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
