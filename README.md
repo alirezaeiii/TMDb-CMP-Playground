@@ -1,5 +1,5 @@
 # TMDb-CMP-Playground
-Minimal CMP project that showcase shared element transition as well as caching.
+CMP project that showcase shared element transition as well as caching.
 
 This is a Compose Multiplatform project targeting Android, iOS.
 
