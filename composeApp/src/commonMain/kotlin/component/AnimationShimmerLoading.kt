@@ -9,20 +9,15 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
@@ -33,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import theme.getBorderColor
 import utils.Dimens.TMDb_10_dp
 import utils.Dimens.TMDb_12_dp
-import utils.Dimens.TMDb_140_dp
 import utils.Dimens.TMDb_150_dp
 import utils.Dimens.TMDb_6_dp
 import utils.Dimens.TMDb_8_dp
@@ -41,22 +35,11 @@ import utils.Dimens.TMDb_8_dp
 @Composable
 fun ShimmerLoading() {
     TMDbTopBar {
-        LazyVerticalGrid(
-            modifier = Modifier.background(MaterialTheme.colors.background).padding(it),
-            columns = GridCells.Adaptive(minSize = TMDb_140_dp),
-            contentPadding = PaddingValues(
-                start = TMDb_8_dp,
-                end = TMDb_8_dp,
-                bottom = TMDb_8_dp
-            ),
-            horizontalArrangement = Arrangement.spacedBy(
-                TMDb_8_dp, Alignment.CenterHorizontally
-            ),
-            content = {
-                items(count = 20) {
-                    ShimmerItem()
-                }
-            })
+        TMDbVerticalLazyGrid(modifier = Modifier.padding(it), content = {
+            items(count = 20) {
+                ShimmerItem()
+            }
+        })
     }
 }
 
