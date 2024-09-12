@@ -12,6 +12,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,6 +22,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
@@ -29,10 +31,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import theme.getBorderColor
+import utils.Dimens.TMDb_10_dp
 import utils.Dimens.TMDb_12_dp
 import utils.Dimens.TMDb_140_dp
 import utils.Dimens.TMDb_150_dp
-import utils.Dimens.TMDb_4_dp
 import utils.Dimens.TMDb_6_dp
 import utils.Dimens.TMDb_8_dp
 
@@ -42,6 +44,14 @@ fun ShimmerLoading() {
         LazyVerticalGrid(
             modifier = Modifier.background(MaterialTheme.colors.background).padding(it),
             columns = GridCells.Adaptive(minSize = TMDb_140_dp),
+            contentPadding = PaddingValues(
+                start = TMDb_8_dp,
+                end = TMDb_8_dp,
+                bottom = TMDb_8_dp
+            ),
+            horizontalArrangement = Arrangement.spacedBy(
+                TMDb_8_dp, Alignment.CenterHorizontally
+            ),
             content = {
                 items(count = 20) {
                     ShimmerItem()
@@ -54,11 +64,7 @@ fun ShimmerLoading() {
 @Composable
 private fun ShimmerItem() {
     Column(
-        verticalArrangement = Arrangement.spacedBy(TMDb_4_dp),
-        modifier = Modifier.padding(
-            horizontal = TMDb_4_dp,
-            vertical = TMDb_8_dp
-        ).border(
+        Modifier.padding(vertical = TMDb_8_dp).border(
             1.dp,
             getBorderColor().copy(alpha = 0.12f),
             RoundedCornerShape(TMDb_8_dp),
@@ -72,11 +78,11 @@ private fun ShimmerItem() {
                 .clip(shape = MaterialTheme.shapes.large)
                 .shimmerLoadingAnimation()
         )
-        Spacer(Modifier.height(TMDb_4_dp))
+        Spacer(Modifier.height(TMDb_10_dp))
         ComponentRectangleLineLong(.7f)
-        Spacer(modifier = Modifier.height(TMDb_6_dp))
+        Spacer(modifier = Modifier.height(TMDb_12_dp))
         ComponentRectangleLineLong(.4f)
-        Spacer(modifier = Modifier.height(TMDb_4_dp))
+        Spacer(modifier = Modifier.height(TMDb_12_dp))
     }
 }
 

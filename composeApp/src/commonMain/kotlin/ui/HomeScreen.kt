@@ -21,12 +21,10 @@ import component.TMDbCard
 import component.TMDbTopBar
 import domain.model.Movie
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.annotation.KoinExperimentalAPI
 import utils.Dimens.TMDb_140_dp
 import utils.Dimens.TMDb_8_dp
 import viewmodel.TMDbViewModel
 
-@OptIn(KoinExperimentalAPI::class)
 @Composable
 fun HomeScreen(
     viewModel: TMDbViewModel = koinViewModel<TMDbViewModel>(),
