@@ -46,7 +46,7 @@ private fun HomeScreen(
         PullToRefreshBox(
             modifier = Modifier.padding(it),
             isRefreshing = viewModel.isRefreshing,
-            onRefresh = { viewModel.refresh(isLoading = false) }
+            onRefresh = { viewModel.refresh() }
         ) {
             VerticalCollection(
                 movies,

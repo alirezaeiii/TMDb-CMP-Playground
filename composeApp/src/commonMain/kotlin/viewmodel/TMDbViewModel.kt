@@ -8,28 +8,27 @@ import androidx.lifecycle.viewModelScope
 import domain.model.Movie
 import domain.repository.TMDbRepository
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class TMDbViewModel(private val repository: TMDbRepository) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(UiState())
-    val uiState = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(UiState(isLoading = true))
+    val uiState = _uiState.onStart {
+        refresh()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = UiState(isLoading = true)
+    )
 
     var isRefreshing by mutableStateOf(false)
         private set
 
-    init {
-        refresh()
-    }
-
-    fun refresh(isLoading: Boolean = true) {
-        if (isLoading) {
-            _uiState.update {
-                UiState(isLoading = true)
-            }
-        }
+    fun refresh() {
         viewModelScope.launch {
             try {
                 isRefreshing = true
