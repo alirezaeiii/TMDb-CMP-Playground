@@ -22,9 +22,9 @@ navigation = "2.8.0-alpha09"
 koin = "4.0.0-RC1"
 coil = "3.0.0-alpha09"
 url-encoder = "1.5.0"
-room = "2.7.0-alpha07"
+room = "2.7.0-alpha02"
 ksp = "2.0.0-1.0.24"
-sqlite = "2.5.0-alpha07"
+sqlite = "2.5.0-alpha01"
 buildKonfig = "0.15.1"
 
 [libraries]

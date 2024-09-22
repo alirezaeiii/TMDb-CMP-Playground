@@ -134,3 +134,9 @@ room {
 dependencies {
     add("kspCommonMainMetadata", libs.room.compiler)
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+    if (name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
