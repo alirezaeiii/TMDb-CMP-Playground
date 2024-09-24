@@ -25,6 +25,10 @@ Add your [TMDB](https://www.themoviedb.org/) API key in the `local.properties` f
 TMDB_API_KEY=YOUR_API_KEY
 ```
 
+## Known issues
+https://youtrack.jetbrains.com/issue/CMP-6588/Shadow-image-when-navigate-back
+https://youtrack.jetbrains.com/issue/CMP-6711/Screen-freezes-in-loading-state
+
 ## Libraries
 * [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) - Compose Multiplatform, a modern UI framework for Kotlin that makes building performant and beautiful user interfaces.
 * [Jetbrain Navigation Compose](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation-routing.html) - The Navigation component provides support for Jetpack Compose applications. You can navigate between composables while taking advantage of the Navigation component’s infrastructure and features.
