@@ -26,8 +26,8 @@ TMDB_API_KEY=YOUR_API_KEY
 ```
 
 ## Known issues
-https://youtrack.jetbrains.com/issue/CMP-6588/Shadow-image-when-navigate-back
-https://youtrack.jetbrains.com/issue/CMP-6711/Screen-freezes-in-loading-state
+* https://youtrack.jetbrains.com/issue/CMP-6588/Shadow-image-when-navigate-back
+* https://youtrack.jetbrains.com/issue/CMP-6711/Screen-freezes-in-loading-state
 
 ## Libraries
 * [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) - Compose Multiplatform, a modern UI framework for Kotlin that makes building performant and beautiful user interfaces.
