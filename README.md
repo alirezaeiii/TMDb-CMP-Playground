@@ -43,6 +43,8 @@ TMDB_API_KEY=YOUR_API_KEY
 * [Shared Element Transition](https://developer.android.com/develop/ui/compose/animation/shared-elements) - Shared element transitions are a seamless way to transition between composables that have content that is consistent between them.
 * [Material3 CenterAlignedTopAppBar](https://developer.android.com/develop/ui/compose/components/app-bars) - Provides access to key tasks and information. Generally hosts a title, core action items, and certain navigation items.
 * [Material3 PullToRefresh](https://developer.android.com/reference/kotlin/androidx/compose/material3/pulltorefresh/package-summary.html) - Pull-to-refresh indicator in Matrial3
+* [BuildKonfig](https://github.com/yshrsmz/BuildKonfig) - BuildConfig for Kotlin Multiplatform Project.
+* [Napier](https://github.com/AAkira/Napier) - logger library for Kotlin Multiplatform project.
 
 ## Licence
     MIT License
