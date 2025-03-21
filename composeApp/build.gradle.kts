@@ -140,3 +140,15 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
         dependsOn("kspCommonMainKotlinMetadata")
     }
 }
+
+tasks.named("compileKotlinIosArm64").configure {
+    dependsOn(tasks.named("kspCommonMainKotlinMetadata"))
+}
+
+tasks.named("compileKotlinIosSimulatorArm64").configure {
+    dependsOn(tasks.named("kspCommonMainKotlinMetadata"))
+}
+
+tasks.named("compileKotlinIosX64").configure {
+    dependsOn(tasks.named("kspCommonMainKotlinMetadata"))
+}
