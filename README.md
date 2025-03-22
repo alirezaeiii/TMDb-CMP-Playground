@@ -26,7 +26,7 @@ TMDB_API_KEY=YOUR_API_KEY
 ```
 
 ## Known issues
-* https://youtrack.jetbrains.com/issue/CMP-7096
+* https://youtrack.jetbrains.com/issue/CMP-7096 (this has been fixed in navigation library 2.9.0-alpha15)
 * https://youtrack.jetbrains.com/issue/CMP-6711
 
 ## Libraries
