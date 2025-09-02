@@ -51,6 +51,7 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -114,6 +115,10 @@ android {
         compose = true
     }
     dependencies {
+        add("kspAndroid", libs.room.compiler)
+        add("kspIosSimulatorArm64", libs.room.compiler)
+        add("kspIosX64", libs.room.compiler)
+        add("kspIosArm64", libs.room.compiler)
         debugImplementation(compose.uiTooling)
     }
 }
@@ -129,26 +134,4 @@ buildkonfig {
 
 room {
     schemaDirectory("$projectDir/schemas")
-}
-
-dependencies {
-    add("kspCommonMainMetadata", libs.room.compiler)
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
-    if (name != "kspCommonMainKotlinMetadata") {
-        dependsOn("kspCommonMainKotlinMetadata")
-    }
-}
-
-tasks.named("compileKotlinIosArm64").configure {
-    dependsOn(tasks.named("kspCommonMainKotlinMetadata"))
-}
-
-tasks.named("compileKotlinIosSimulatorArm64").configure {
-    dependsOn(tasks.named("kspCommonMainKotlinMetadata"))
-}
-
-tasks.named("compileKotlinIosX64").configure {
-    dependsOn(tasks.named("kspCommonMainKotlinMetadata"))
 }
